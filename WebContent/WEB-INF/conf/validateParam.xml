@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validators xmlns="http://www.example.net/test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.net/test validateParam.xsd">
+
+	<servletValidator servletUrl="/SendToAll">
+
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="content" errorCode="010101" />
+		</validator>
+		<validator validatorClass="locationshare.validator.MaxLengthValidator"
+			maxLength="10" charsetName="utf-8">
+			<validateParam name="content" errorCode="010102" />
+		</validator>
+
+	</servletValidator>
+
+
+	<servletValidator servletUrl="/SendToUsers">
+
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="content" errorCode="010201" />
+			<validateParam name="userlist" errorCode="010203" />
+		</validator>
+		<validator validatorClass="locationshare.validator.MaxLengthValidator"
+			maxLength="10" charsetName="utf-8">
+			<validateParam name="content" errorCode="020102" />
+		</validator>
+		<validator validatorClass="locationshare.validator.ListStringValidator"
+			split=",">
+			<validateParam name="userlist" errorCode="020104" />
+		</validator>
+
+	</servletValidator>
+
+</validators>

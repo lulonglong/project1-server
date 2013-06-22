@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>LocationShare</display-name>
+	<!-- 参数验证配置文件 -->
+	<context-param>
+		<param-name>validateConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/conf/validateParam.xml
+		</param-value>
+	</context-param>
+	<!-- 返回格式 -->
+	<context-param>
+		<param-name>returnType</param-name>
+		<param-value>
+			xml
+		</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>locationshare.root</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/conf/log4j.properties</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/conf/applicationContext.xml
+			/WEB-INF/conf/applicationContext_com.xml
+		</param-value>
+	</context-param>
+	
+	<!-- 编码过滤器 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>locationshare.common.filter.CharacterEncodingFileter</filter-class>
+		<init-param>
+			<param-name>charset</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 请求过滤器 -->
+	<filter>
+		<filter-name>PrintRequestInfoFilter</filter-name>
+		<filter-class>locationshare.common.filter.PrintRequestInfoFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrintRequestInfoFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.lulonglong.listener.ValidateListener</listener-class>
+	</listener>
+	
+	<!-- servlet  XXX -->
+	<servlet>
+		<servlet-name>SendToAllServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>sendToAllServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendToAllServlet</servlet-name>
+		<url-pattern>/SendToAll</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SendToUsersServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>sendToUsersServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendToUsersServlet</servlet-name>
+		<url-pattern>/SendToUsers</url-pattern>
+	</servlet-mapping>
+
+		<env-entry>
+		<env-entry-name>locationshare_property_file_name</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>WEB-INF/conf/locationshare.conf</env-entry-value>
+	</env-entry>
+</web-app>
