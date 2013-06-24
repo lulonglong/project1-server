@@ -25,7 +25,7 @@
 
 		<xsd:attribute name="validatorClass" type="xsd:string"
 			use="required"></xsd:attribute>
-		<xsd:anyAttribute />
+		<xsd:anyAttribute processContents="lax"/>
 	</xsd:complexType>
 
 
