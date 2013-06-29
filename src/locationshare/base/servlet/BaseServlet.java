@@ -33,7 +33,7 @@ public abstract class BaseServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		doPost(req, res);
+		res.sendError(HttpServletResponse.SC_FORBIDDEN);
 	}
 
 	@Override
