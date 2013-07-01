@@ -33,11 +33,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src1</name>
-			<type>2</type>
-			<location>F:/合作项目/trunk/location share/src/testvalidate/src</location>
-		</link>
-	</linkedResources>
 </projectDescription>
