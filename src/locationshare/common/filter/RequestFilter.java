@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import locationshare.common.util.StringUtil;
 
-
 /**
  * Servlet Filter implementation class RequestFilter
  */
@@ -31,17 +30,20 @@ public class RequestFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		
 		if (request instanceof HttpServletRequest) {
 
 			HttpServletRequest req = (HttpServletRequest) request;
-			String userAgentString=req.getHeader("user-agent");
-			if (req.getMethod() == "GET"||!StringUtil.isMobileClient(userAgentString)) {
+			String requestUrl = req.getRequestURI();
+
+			String userAgentString = req.getHeader("user-agent");
+			if (!StringUtil.isStaticPage(requestUrl)
+					&& (req.getMethod() == "GET" || !StringUtil
+							.isMobileClient(userAgentString))) {
 				HttpServletResponse res = (HttpServletResponse) response;
 				res.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
 			}
-			
+
 		}
 		chain.doFilter(request, response);
 	}

@@ -10,12 +10,7 @@
 			/WEB-INF/conf/validateParam.xml
 		</param-value>
 	</context-param>
-	<context-param>
-		<param-name>returnType</param-name>
-		<param-value>
-			xml
-		</param-value>
-	</context-param>
+
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>locationshare.root</param-value>
@@ -31,14 +26,7 @@
 			/WEB-INF/conf/applicationContext_com.xml
 		</param-value>
 	</context-param>
-	<filter>
-		<filter-name>RequestFilter</filter-name>
-		<filter-class>locationshare.common.filter.RequestFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>RequestFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<!-- 编码过滤器 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>locationshare.common.filter.CharacterEncodingFileter</filter-class>
@@ -51,6 +39,7 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!-- 请求打印过滤器 -->
 	<filter>
 		<filter-name>PrintRequestInfoFilter</filter-name>
 		<filter-class>locationshare.common.filter.PrintRequestInfoFilter</filter-class>
@@ -59,6 +48,16 @@
 		<filter-name>PrintRequestInfoFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!-- 请求过滤器 -->
+	<filter>
+		<filter-name>RequestFilter</filter-name>
+		<filter-class>locationshare.common.filter.RequestFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RequestFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 验证过滤器 -->
 	<filter>
 		<filter-name>ValidateFilter</filter-name>
 		<filter-class>org.lulonglong.filter.ValidateFilter</filter-class>
@@ -67,6 +66,7 @@
 		<filter-name>ValidateFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!-- spring Listener -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -76,9 +76,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
+	<!-- 参数验证Listener -->
 	<listener>
 		<listener-class>org.lulonglong.listener.ValidateListener</listener-class>
 	</listener>
+	<!-- servlet配置 -->
 	<servlet>
 		<servlet-name>SendToAllServlet</servlet-name>
 		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
@@ -92,6 +94,7 @@
 		<servlet-name>SendToAllServlet</servlet-name>
 		<url-pattern>/SendToAll</url-pattern>
 	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>SendToUsersServlet</servlet-name>
 		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
@@ -105,6 +108,7 @@
 		<servlet-name>SendToUsersServlet</servlet-name>
 		<url-pattern>/SendToUsers</url-pattern>
 	</servlet-mapping>
+	<!-- 配置文件 -->
 	<env-entry>
 		<env-entry-name>locationshare_property_file_name</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
