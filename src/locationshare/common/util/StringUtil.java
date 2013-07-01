@@ -314,7 +314,7 @@ public class StringUtil {
 			return false;
 
 		if (urlString.contains("jsp") || urlString.contains("html")
-				|| urlString.contains("htm") || urlString.matches("^/[^/]+/$")) {
+				|| urlString.contains("htm") || urlString.matches("^/$")) {
 			return true;
 		}
 		
