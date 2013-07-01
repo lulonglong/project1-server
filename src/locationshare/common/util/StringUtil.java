@@ -292,4 +292,14 @@ public class StringUtil {
 		
 		return true;
 	}
+	/**
+	 * 判断是否为支持的移动客户端
+	 * 
+	 * @param userAgentString
+	 * @return
+	 */
+	public static boolean isMobileClient(String userAgentString) {
+		return true;
+	}
+	
 }
