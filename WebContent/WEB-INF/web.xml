@@ -26,7 +26,7 @@
 			/WEB-INF/conf/applicationContext_com.xml
 		</param-value>
 	</context-param>
-	<!-- 编码过滤器 -->
+	<!-- encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>locationshare.common.filter.CharacterEncodingFileter</filter-class>
@@ -39,7 +39,7 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- 请求打印过滤器 -->
+	<!-- print request filter -->
 	<filter>
 		<filter-name>PrintRequestInfoFilter</filter-name>
 		<filter-class>locationshare.common.filter.PrintRequestInfoFilter</filter-class>
@@ -48,16 +48,13 @@
 		<filter-name>PrintRequestInfoFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- 请求过滤器 -->
-	<filter>
-		<filter-name>RequestFilter</filter-name>
-		<filter-class>locationshare.common.filter.RequestFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>RequestFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<!-- 验证过滤器 -->
+
+	<!-- request filter :intercept some illegal request -->
+	<!-- <filter> <filter-name>RequestFilter</filter-name> <filter-class>locationshare.common.filter.RequestFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>RequestFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+
+	<!-- validate params filter -->
 	<filter>
 		<filter-name>ValidateFilter</filter-name>
 		<filter-class>org.lulonglong.filter.ValidateFilter</filter-class>
@@ -66,6 +63,7 @@
 		<filter-name>ValidateFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 	<!-- spring Listener -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -76,39 +74,70 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-	<!-- 参数验证Listener -->
+
+	<!-- validate params Listener -->
 	<listener>
 		<listener-class>org.lulonglong.listener.ValidateListener</listener-class>
 	</listener>
-	<!-- servlet配置 -->
+
+	<!-- servlets -->
 	<servlet>
-		<servlet-name>SendToAllServlet</servlet-name>
+		<servlet-name>ValidateRegisterServlet</servlet-name>
 		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
 		<init-param>
 			<param-name>targetBean</param-name>
-			<param-value>sendToAllServlet</param-value>
+			<param-value>validateRegisterServlet</param-value>
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SendToAllServlet</servlet-name>
-		<url-pattern>/SendToAll</url-pattern>
+		<servlet-name>ValidateRegisterServlet</servlet-name>
+		<url-pattern>/ValidateRegister</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>SendToUsersServlet</servlet-name>
+		<servlet-name>SignUpServlet</servlet-name>
 		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
 		<init-param>
 			<param-name>targetBean</param-name>
-			<param-value>sendToUsersServlet</param-value>
+			<param-value>signUpServlet</param-value>
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SendToUsersServlet</servlet-name>
-		<url-pattern>/SendToUsers</url-pattern>
+		<servlet-name>SignUpServlet</servlet-name>
+		<url-pattern>/SignUp</url-pattern>
 	</servlet-mapping>
-	<!-- 配置文件 -->
+
+	<servlet>
+		<servlet-name>LogInServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>logInServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LogInServlet</servlet-name>
+		<url-pattern>/LogIn</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RecordLogInInfoServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>recordLogInInfoServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RecordLogInInfoServlet</servlet-name>
+		<url-pattern>/RecordLogInInfo</url-pattern>
+	</servlet-mapping>
+
+	<!-- conf file -->
 	<env-entry>
 		<env-entry-name>locationshare_property_file_name</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>

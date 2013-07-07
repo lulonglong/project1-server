@@ -1,1 +1,4 @@
 太他妈的fuck了,不能把log4j.jar上传到新浪服务器，会跟它的jar包冲突的
+
+web.xml配置servlet映射等，applicationContext.xml是配置servlet和action实例的
+validateParam.xml是配置参数验证的

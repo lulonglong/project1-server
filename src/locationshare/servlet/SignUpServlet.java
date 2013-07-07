@@ -5,13 +5,14 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import locationshare.action.LogInAction;
 import locationshare.action.XXXAction;
 import locationshare.base.servlet.BaseServlet;
 
 /**
  * Servlet implementation class UpdateBatchLocationServlet
  */
-public class SendToUsersServlet extends BaseServlet {
+public class SignUpServlet extends BaseServlet {
 	/** */
 	private static final long serialVersionUID = 7392733831361287601L;
 
@@ -22,10 +23,10 @@ public class SendToUsersServlet extends BaseServlet {
 		return "SendToUsersServlet-OK";
 	}
 
-	private XXXAction xXXAction;
+	private LogInAction logInAction;
 
-	public void setXXXAction(XXXAction xXXAction) {
-		this.xXXAction = xXXAction;
+	public void setLogInAction(LogInAction logInAction) {
+		this.logInAction = logInAction;
 	}
 
 }

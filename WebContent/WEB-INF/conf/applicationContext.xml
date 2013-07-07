@@ -11,25 +11,33 @@
              http://www.springframework.org/schema/aop
              http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<!--  -->
+	<!-- action -->
+	<bean id="xxxAction" class="locationshare.action.XXXAction" scope="singleton">
+	</bean>
 
-	<bean id="xxxAction"
-		class="locationshare.action.XXXAction"
+	<bean id="logInAction" class="locationshare.action.LogInAction"
 		scope="singleton">
 	</bean>
 
-
-	<bean id="sendToAllServlet"
-		class="locationshare.servlet.SendToAllServlet"
+	<!-- servlet instance -->
+	<bean id="validateRegisterServlet" class="locationshare.servlet.ValidateRegisterServlet"
 		scope="singleton">
-		<property name="xXXAction" ref="xxxAction" />
+		<property name="logInAction" ref="logInAction" />
 	</bean>
 
-	<bean id="sendToUsersServlet"
-		class="locationshare.servlet.SendToUsersServlet"
+	<bean id="signUpServlet" class="locationshare.servlet.SignUpServlet"
 		scope="singleton">
-		<property name="xXXAction" ref="xxxAction" />
+		<property name="logInAction" ref="logInAction" />
 	</bean>
 
+	<bean id="logInServlet" class="locationshare.servlet.LogInServlet"
+		scope="singleton">
+		<property name="logInAction" ref="logInAction" />
+	</bean>
+
+	<bean id="recordLogInInfoServlet" class="locationshare.servlet.RecordLogInInfoServlet"
+		scope="singleton">
+		<property name="logInAction" ref="logInAction" />
+	</bean>
 
 </beans> 

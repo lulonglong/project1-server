@@ -5,14 +5,14 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import locationshare.action.XXXAction;
+import locationshare.action.LogInAction;
 import locationshare.base.servlet.BaseServlet;
 
 /**
  * Servlet implementation class LocationServlet
  */
 
-public class SendToAllServlet extends BaseServlet {
+public class ValidateRegisterServlet extends BaseServlet {
 	/**
 	 * 
 	 */
@@ -21,14 +21,12 @@ public class SendToAllServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		// TODO Auto-generated method stub
-		logger.debug("eww我");
 		return "SendToAllServlet-OK";
 	}
 
-	private XXXAction xXXAction;
+	private LogInAction logInAction;
 
-	public void setXXXAction(XXXAction xXXAction) {
-		this.xXXAction = xXXAction;
+	public void setLogInAction(LogInAction logInAction) {
+		this.logInAction = logInAction;
 	}
 }
