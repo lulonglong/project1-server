@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-7-7 17:04:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="locationshare.hibernate.TbUser" table="tb_user" catalog="app_locationshare">
+        <id name="userid" type="java.lang.Integer">
+            <column name="userid" />
+            <generator class="identity" />
+        </id>
+        <property name="username" type="string">
+            <column name="username" length="30" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="16" />
+        </property>
+        <property name="qq" type="string">
+            <column name="qq" length="15" />
+        </property>
+        <property name="sina" type="string">
+            <column name="sina" length="30" />
+        </property>
+        <property name="registertime" type="timestamp">
+            <column name="registertime" length="19" not-null="true" />
+        </property>
+        <property name="registerip" type="string">
+            <column name="registerip" length="150" not-null="true" />
+        </property>
+        <property name="registerdeviceno" type="string">
+            <column name="registerdeviceno" length="50" not-null="true" />
+        </property>
+        <property name="registeros" type="string">
+            <column name="registeros" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
