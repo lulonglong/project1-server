@@ -5,7 +5,7 @@ import org.lulonglong.base.validator.AbstractParamValidator;
 import locationshare.common.util.StringUtil;
 
 /**
- * 验证是否为null或空
+ * is null or whitespace
  * 
  * @version 2013-6-14
  * @author Suntec

@@ -1,7 +1,9 @@
 
-package locationshare.common.util;
+package locationshare.base.vo;
 
 import java.util.List;
+
+import locationshare.common.util.StringUtil;
 
 
 /**
@@ -12,14 +14,14 @@ import java.util.List;
  * @since JDK1.6
  * 
  */
-public class ResultVO {
+public class BaseResultVO {
 
 	/**
-	 * 返回单个错误码的xml串
+	 * xml result with single errorCode 
 	 * 
 	 * @return
 	 */
-	public static String toErrorXmlResult(String errorCode) {
+	public  String toErrorXmlResult(String errorCode) {
 		if (StringUtil.isNullOrWhiteSpace(errorCode))
 			return null;
 
@@ -28,11 +30,11 @@ public class ResultVO {
 	}
 
 	/**
-	 * 返回多个错误码的xml串
+	 * xml result with multiple errorCode
 	 * 
 	 * @return
 	 */
-	public static String toErrorXmlResult(List<String> errorCodeList) {
+	public  String toErrorXmlResult(List<String> errorCodeList) {
 		if (errorCodeList == null || errorCodeList.isEmpty())
 			return null;
 
@@ -46,11 +48,11 @@ public class ResultVO {
 	}
 
 	/**
-	 * 返回单个错误码的Json串
+	 * Json result with single errorCode
 	 * 
 	 * @return
 	 */
-	public static String toErrorJsonResult(String errorCode) {
+	public  String toErrorJsonResult(String errorCode) {
 		if (StringUtil.isNullOrWhiteSpace(errorCode))
 			return null;
 
@@ -58,11 +60,11 @@ public class ResultVO {
 	}
 
 	/**
-	 * 返回错误码列表的Json串
+	 * Json result with multiple errorCode
 	 * 
 	 * @return
 	 */
-	public static String toErrorJsonResult(List<String> errorCodeList) {
+	public  String toErrorJsonResult(List<String> errorCodeList) {
 
 		if (errorCodeList == null || errorCodeList.isEmpty())
 			return null;
@@ -79,25 +81,32 @@ public class ResultVO {
 	}
 
 	/**
-	 * 带有返回码的结果
+	 * successful xml result
 	 * 
 	 * @param xmlContent
 	 * @return
 	 */
-	public static String toSuccessXMLResult(String xmlContent) {
+	public  String toSuccessXMLResult() {
+		return "<result code=\"0\"></result>";
+	}
+	
+	/**
+	 * successful xml result with content
+	 * 
+	 * @param xmlContent
+	 * @return
+	 */
+	public  String toSuccessXMLResult(String xmlContent) {
 		return "<result code=\"0\">" + xmlContent + "</result>";
 	}
 
 	/**
-	 * 带有返回码的结果
+	 * successful json result
 	 * 
-	 * @param jsonContent
-	 *            表示json格式的内容，如果内容仅仅表示一个字符串则采用\"abcdefg\"格式,即参数内容本身要包含双引号
 	 * @return
 	 */
-	public static String toSucessJsonResult(String jsonContent) {
-		if (StringUtil.isNullOrWhiteSpace(jsonContent))
-			jsonContent = "{}";
-		return "{\"code\"=\"0\",\"content\"=" + jsonContent + "}";
+	public  String toSucessJsonResult() {
+		return "{\"code\"=\"0\"}";
 	}
+	
 }

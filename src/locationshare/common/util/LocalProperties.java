@@ -19,7 +19,6 @@ public class LocalProperties {
 	
 	public void init() throws ReadPropertyException {
 
-		// 初始化
 		if(localizeDictionary==null) {
 
 			try{
@@ -41,7 +40,6 @@ public class LocalProperties {
 					throw new ReadPropertyException("Initializate properties failure.");
 				}
 
-				// localizeDictionary生成
 				localizeDictionary = new Properties();
 				FileInputStream fin = new FileInputStream(file);
 				localizeDictionary.load(fin);

@@ -36,7 +36,7 @@ public class PrintRequestInfoFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		final String FUNCTION_NAME = "doFilter() ";
-		logger.info(FUNCTION_NAME + "-----【Request信息开始】 -----");
+		logger.info(FUNCTION_NAME + "-----[Request Start] -----");
 
 		if (request instanceof HttpServletRequest) {
 
@@ -44,7 +44,7 @@ public class PrintRequestInfoFilter implements Filter {
 
 			logger.info(req.getRequestURI());
 
-			/************* Request Head信息 *************/
+			/************* Request Head *************/
 			Enumeration<String> headerKeys = req.getHeaderNames();
 
 			TreeMap<String, String> headMap = new TreeMap<String, String>();
@@ -56,7 +56,7 @@ public class PrintRequestInfoFilter implements Filter {
 
 			logger.info(FUNCTION_NAME + headMap);
 
-			/************* Parameter信息 *************/
+			/************* Parameter *************/
 			boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 
 			if (!isMultipart) {
@@ -77,7 +77,7 @@ public class PrintRequestInfoFilter implements Filter {
 			}
 		}
 
-		logger.info(FUNCTION_NAME + "----- 【Request信息结束】 -----" + "\r\n");
+		logger.info(FUNCTION_NAME + "----- [Request End] -----" + "\r\n");
 		chain.doFilter(request, response);
 	}
 

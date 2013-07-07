@@ -22,7 +22,7 @@ public class LogAspect {
 	private String level = "debug";
 
 	/**
-	 * 方法执行后的log
+	 * log after function
 	 * 
 	 * @param jp
 	 */
@@ -32,7 +32,7 @@ public class LogAspect {
 	}
 
 	/**
-	 * 环绕通知的log
+	 * log around function
 	 * 
 	 * @param jp
 	 * @return
@@ -54,7 +54,7 @@ public class LogAspect {
 	}
 
 	/**
-	 * 方法执行前的log
+	 * log before function
 	 * 
 	 * @param jp
 	 */
@@ -62,7 +62,7 @@ public class LogAspect {
 		Log log = LogFactory.getLog(jp.getTarget().getClass());
 		logMessage(log, level, jp.getSignature().getName() + ": begin");
 
-		// debug的场合，将parameter写入log
+		// when debug,log parameters
 		if ("debug".equalsIgnoreCase(level)) {
 			String[] argNames;
 			try {
@@ -115,7 +115,7 @@ public class LogAspect {
 	}
 
 	/**
-	 * 发生异常时的log
+	 * log the exception
 	 * 
 	 * @param jp
 	 * @param ex

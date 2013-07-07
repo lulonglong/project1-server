@@ -24,7 +24,7 @@ public class CharacterEncodingFileter implements Filter {
 
 	public void init(FilterConfig config) throws ServletException {
 		/*
-		 * 获取web.xml文件中的<param-name>charset</param-name>标签的名字charset对应的值
+		 * <param-name>charset</param-name> in web.xml 
 		 */
 		charset = config.getInitParameter("charset");
 	}

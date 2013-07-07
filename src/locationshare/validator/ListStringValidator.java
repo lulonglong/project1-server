@@ -6,7 +6,6 @@ import org.lulonglong.base.validator.AbstractParamValidator;
 import locationshare.common.util.StringUtil;
 
 /**
- * 验证是否为被指定符号分隔的列表字符串
  * 
  * @version 2013-6-14
  * @author lulonglong
@@ -30,7 +29,7 @@ public class ListStringValidator extends AbstractParamValidator {
 	}
 
 	/**
-	 * 设置分隔符
+	 * set split
 	 * 
 	 * @param split
 	 */

@@ -6,7 +6,6 @@ import org.lulonglong.base.validator.AbstractParamValidator;
 import locationshare.common.util.StringUtil;
 
 /**
- * 验证在制定编码下是否超出最大长度
  * 
  * @version 2013-6-14
  * @author lulonglong
@@ -25,7 +24,6 @@ public class MaxLengthValidator extends AbstractParamValidator {
 	}
 
 	/**
-	 * 设置编码
 	 * 
 	 * @param charsetName
 	 */
@@ -34,7 +32,6 @@ public class MaxLengthValidator extends AbstractParamValidator {
 	}
 
 	/**
-	 * 设置最大长度
 	 * 
 	 * @param maxLength
 	 */

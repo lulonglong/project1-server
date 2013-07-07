@@ -33,21 +33,17 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否手机号码
+	 * ismobile
 	 * 
 	 * @param str
 	 * @return
 	 */
 	public static boolean isMobile(String str) {
-		String pattern = "\\d+";
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(str);
-		return m.matches();
+		String pattern = "1[3458]\\d{9}";
+		return str.matches(pattern);
 	}
 
 	/**
-	 * 判断是否邮件地址 合法E-mail地址： 1. 必须包含一个并且只有一个符号“@” 2. 第一个字符不得是“@”或者“.” 3.
-	 * 不允许出现“@.”或者.@ 4. 结尾不得是字符“@”或者“.” 5. 允许“@”前的字符中出现“＋” 6. 不允许“＋”在最前面，或者“＋@”
 	 * 
 	 * @param str
 	 * @return
@@ -61,8 +57,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否为整数
-	 * 
 	 * @param str
 	 * @return
 	 */
@@ -74,7 +68,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否为整数
 	 * 
 	 * @param str
 	 * @return
@@ -87,8 +80,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否为小数
-	 * 
 	 * @param str
 	 * @return
 	 */
@@ -100,8 +91,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否为小数
-	 * 
 	 * @param str
 	 * @return
 	 */
@@ -113,7 +102,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 是否为正数
 	 * 
 	 * @param str
 	 * @return
@@ -123,7 +111,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 是否为数字
 	 * 
 	 * @param str
 	 * @return
@@ -133,7 +120,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * md5加密字符串
+	 * md5
 	 * 
 	 * @param paraStr
 	 * @return
@@ -144,40 +131,34 @@ public class StringUtil {
 			throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
 		String result = null;
-		char hexDigits[] = {// 用来将字节转换成 16 进制表示的字符
+		char hexDigits[] = {
 		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
 				'e', 'f' };
 
 		if (paraStr != null) {
 
-			// 返回实现指定摘要算法的 MessageDigest 对象
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] source = paraStr.getBytes("utf-8");
 
-			// 使用指定的 byte 数组更新摘要
 			md.update(source);
 			byte[] tmp = md.digest();
 
-			// 用16进制数表示需要32位
 			char[] str = new char[32];
-			for (int i = 0, j = 0; i < 16; i++) {// j表示转换结果中对应的字符位置， 从第一个字节开始，对
-													// MD5 的每一个字节 转换成 16 进制字符
+			for (int i = 0, j = 0; i < 16; i++) {
 
 				byte b = tmp[i];
 
-				// 取字节中高 4 位的数字转换
 				str[j++] = hexDigits[b >>> 4 & 0xf];
-				// 取字节中低 4 位的数字转换
 				str[j++] = hexDigits[b & 0xf];
 			}
-			result = new String(str);// 结果转换成字符串用于返回
+			result = new String(str);
 		}
 
 		return result;
 	}
 
 	/**
-	 * url解码
+	 * url decode
 	 * 
 	 * @param str
 	 * @param code
@@ -190,7 +171,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * url编码
+	 * url encode
 	 * 
 	 * @param str
 	 * @param code
@@ -203,7 +184,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否为空值
 	 * 
 	 * @param str
 	 * @return
@@ -227,7 +207,6 @@ public class StringUtil {
 			return null;
 		}
 
-		// 每个键值为一组
 		paraArr = parasString.split("&");
 
 		for (String para : paraArr) {
@@ -238,13 +217,10 @@ public class StringUtil {
 			if (paraMap.containsKey(keyValue[0]))
 				continue;
 
-			// 解析出键值
 			if (keyValue.length > 1) {
-				// 正确解析
 				paraMap.put(keyValue[0], keyValue[1]);
 			} else {
 				if (keyValue[0] != "") {
-					// 只有参数没有值，不加入
 					paraMap.put(keyValue[0], "");
 				}
 			}
@@ -255,7 +231,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 获取堆栈信息
 	 * 
 	 * @param e
 	 * @return
@@ -279,7 +254,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否被split分割的列表字符串 如：1s,we,ff,ff
+	 * stringlist with split  e.g. 1s,we,ff,ff
 	 * 
 	 * @param str
 	 * @param split
@@ -299,16 +274,12 @@ public class StringUtil {
 		return true;
 	}
 
+
 	/**
-	 * 判断是否为支持的移动客户端
-	 * 
-	 * @param userAgentString
+	 *  is it a static webpage 
+	 * @param urlString
 	 * @return
 	 */
-	public static boolean isMobileClient(String userAgentString) {
-		return true;
-	}
-
 	public static boolean isStaticPage(String urlString) {
 		if (isNullOrWhiteSpace(urlString))
 			return false;
@@ -319,5 +290,10 @@ public class StringUtil {
 		}
 		
 		return false;
+	}
+
+	public static boolean isMobileClient(String userAgentString) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
