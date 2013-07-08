@@ -10,5 +10,7 @@ public final class ErrorCode {
 	public static final String VALIDATE_USERNAME_EXIST = "010001";
 	// SINUP ErrorCode
 	public static final String SINUP_FAILED_ = "020001";
+	//logIn ErrorCode
+	public static final String LOGIN_FAILED = "030001";
 
 }

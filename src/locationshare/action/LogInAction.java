@@ -3,20 +3,18 @@ package locationshare.action;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.exception.JDBCConnectionException;
-
 import locationshare.base.action.BaseAction;
 import locationshare.base.vo.BaseResultVO;
 import locationshare.common.util.ErrorCode;
 import locationshare.common.util.StringUtil;
 import locationshare.hibernate.HibernateUtil;
-import locationshare.hibernate.TbException;
 import locationshare.hibernate.TbUser;
 import locationshare.vo.LogInResultVo;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.JDBCConnectionException;
 
 /**
  * Descriptions
@@ -27,7 +25,7 @@ import locationshare.vo.LogInResultVo;
  * 
  */
 public class LogInAction extends BaseAction {
-
+	// TODO improve db performance
 	/**
 	 * is the username existing
 	 * 
@@ -73,6 +71,7 @@ public class LogInAction extends BaseAction {
 
 			session = HibernateUtil.getSession();
 			TbUser user = new TbUser(new Date(), ip, devicename, phoneos);
+
 			if (StringUtil.isNullOrWhiteSpace(type) || type.equals("0")) {
 				user.setUsername(username);
 				user.setPassword(password);
@@ -94,4 +93,43 @@ public class LogInAction extends BaseAction {
 		}
 	}
 
+	/**
+	 * login
+	 * 
+	 * @param type
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public String logIn(String type, String username, String password) {
+		Session session = null;
+		LogInResultVo vo = new LogInResultVo();
+		try {
+
+			session = HibernateUtil.getSession();
+			Criteria criteria = session.createCriteria(TbUser.class);
+			if (StringUtil.isNullOrWhiteSpace(type) || type.equals("0")) {
+				criteria.add(Restrictions.eq("username", username));
+				criteria.add(Restrictions.eq("password", password));
+			} else if (type.equals("1")) {
+				criteria.add(Restrictions.eq("qq", username));
+			} else if (type.equals("2")) {
+				criteria.add(Restrictions.eq("sina", username));
+			}
+
+			List<TbUser> users = criteria.list();
+			if (!users.isEmpty()) {
+				return vo.toSuccessJsonResult(users.get(0).getUserid());
+			} else {
+				return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
+			}
+			
+		} catch (JDBCConnectionException e) {
+			logger.error("login Error:" + StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
+		} finally {
+			if (session != null)
+				session.close();
+		}
+	}
 }

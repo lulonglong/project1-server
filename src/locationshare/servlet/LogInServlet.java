@@ -18,8 +18,10 @@ public class LogInServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		// TODO Auto-generated method stub
-		return "SendToUsersServlet-OK";
+		String typeString = req.getParameter("type");
+		String usernameString = req.getParameter("username");
+		String passwordString = req.getParameter("password");
+		return logInAction.logIn(typeString,usernameString,passwordString);
 	}
 
 	private LogInAction logInAction;
