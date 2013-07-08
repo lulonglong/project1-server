@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="">
+		<property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+		<property name="hibernate.connection.password">4khxmj1ill5ykjj2045h4i315j20yyywxxi0x30i</property>
+		<property name="hibernate.connection.url">jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_locationshare</property>
+		<property name="hibernate.connection.username">1nyomkom3y</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLMyISAMDialect</property>
+		<mapping class="locationshare.hibernate.TbUser" resource="locationshare/hibernate/TbUser.hbm.xml" />
+		<mapping class="locationshare.hibernate.TbException" resource="locationshare/hibernate/TbException.hbm.xml" />
+		<mapping class="locationshare.hibernate.TbLogininfo" resource="locationshare/hibernate/TbLogininfo.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>
