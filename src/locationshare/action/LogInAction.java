@@ -1,9 +1,20 @@
-
 package locationshare.action;
 
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
 import locationshare.base.action.BaseAction;
-import locationshare.common.exception.ReadPropertyException;
-import locationshare.common.util.LocalProperties;
+import locationshare.base.vo.BaseResultVO;
+import locationshare.common.util.ErrorCode;
+import locationshare.common.util.StringUtil;
+import locationshare.hibernate.HibernateUtil;
+import locationshare.hibernate.TbException;
+import locationshare.hibernate.TbUser;
 
 /**
  * Descriptions
@@ -15,52 +26,32 @@ import locationshare.common.util.LocalProperties;
  */
 public class LogInAction extends BaseAction {
 
-	private String mqPath;
-	private String mqName;
-
 	/**
-	 * 发消息给所有人 * 
-	 * @param msg
-	 * @return
-	 * @throws ReadPropertyException
-	 */
-	public boolean sendMsgToAll( String msg ) throws ReadPropertyException {
-		readPropertyFile();
-		return true;
-	}
-
-	/**
-	 * 发消息给指定的人	 * 
-	 * @param msg
-	 * @param userListString
-	 * @return
-	 * @throws ReadPropertyException
-	 */
-	public boolean sendMsgToUser( String msg, String userListString ) throws ReadPropertyException {
-		readPropertyFile();
-		return true;
-	}
-
-	/**
-	 * 发消息给指定�?	 * 
-	 * @param msg
-	 * @param groupListString
-	 * @return
-	 * @throws ReadPropertyException
-	 */
-	public boolean sendMsgToGroup( String msg, String groupListString ) throws ReadPropertyException {
-		readPropertyFile();
-		return true;
-	}
-
-	/**
-	 * 读取配置文件中的MQ信息
+	 * is the username existing
 	 * 
-	 * @throws ReadPropertyException
+	 * @param usernameString
+	 * @return
 	 */
-	private void readPropertyFile() throws ReadPropertyException {
-		mqPath = LocalProperties.getProperty( "connectionfactory.qpidConnectionfactory" );
-		mqName = LocalProperties.getProperty( "destination.topicExchange" );
+	public String validateRegister(String usernameString) {
+		BaseResultVO vo = new BaseResultVO();
+		Session session = null;
+		try {
+			session = HibernateUtil.getSession();
+			Criteria criteria = session.createCriteria(TbUser.class);
+			criteria.add(Restrictions.eq("username", usernameString));
+
+			if (criteria.uniqueResult() == null)
+				return vo.toSuccessJsonResult();
+			return vo.toErrorJsonResult(ErrorCode.VALIDATE_USERNAME_EXIST);
+		} catch (Exception e) {
+			logger.error("validateRegister Error:"
+					+ StringUtil.getExceptionStack(e));
+		} finally {
+			if (session != null)
+				session.close();
+		}
+		return vo.toErrorJsonResult(ErrorCode.COMMON_ERROR);
+
 	}
 
 }

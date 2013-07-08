@@ -21,7 +21,8 @@ public class ValidateRegisterServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		return "SendToAllServlet-OK";
+		String usernameString = req.getParameter("username");
+		return logInAction.validateRegister(usernameString);
 	}
 
 	private LogInAction logInAction;

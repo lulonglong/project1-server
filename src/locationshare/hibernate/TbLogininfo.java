@@ -1,6 +1,6 @@
 package locationshare.hibernate;
 
-// Generated 2013-7-7 17:04:12 by Hibernate Tools 3.4.0.CR1
+// Generated 2013-7-8 16:26:13 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 

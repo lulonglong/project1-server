@@ -10,15 +10,12 @@
 			/WEB-INF/conf/validateParam.xml
 		</param-value>
 	</context-param>
-
-	<context-param>
-		<param-name>webAppRootKey</param-name>
-		<param-value>locationshare.root</param-value>
-	</context-param>
+	<!-- log4j -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>/WEB-INF/conf/log4j.properties</param-value>
 	</context-param>
+	<!-- instance -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>

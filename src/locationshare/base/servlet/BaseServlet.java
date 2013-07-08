@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import locationshare.base.vo.BaseResultVO;
+import locationshare.common.util.ErrorCode;
 import locationshare.common.util.StringUtil;
 
 import org.apache.commons.logging.Log;
@@ -51,6 +53,7 @@ public abstract class BaseServlet extends HttpServlet {
 
 		} catch (Exception e) {
 			logger.error(StringUtil.getExceptionStack(e));
+			result=new BaseResultVO().toErrorJsonResult(ErrorCode.COMMON_ERROR);
 		} finally {
 			response(res, result.getBytes("UTF-8"));
 		}
