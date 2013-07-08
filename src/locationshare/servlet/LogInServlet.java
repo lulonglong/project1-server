@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import locationshare.action.LogInAction;
-import locationshare.action.XXXAction;
 import locationshare.base.servlet.BaseServlet;
 
 /**

@@ -12,9 +12,6 @@
              http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<!-- action -->
-	<bean id="xxxAction" class="locationshare.action.XXXAction" scope="singleton">
-	</bean>
-
 	<bean id="logInAction" class="locationshare.action.LogInAction"
 		scope="singleton">
 	</bean>
