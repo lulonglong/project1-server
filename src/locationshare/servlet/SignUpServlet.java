@@ -19,8 +19,14 @@ public class SignUpServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		// TODO Auto-generated method stub
-		return "SendToUsersServlet-OK";
+		String typeString = req.getParameter("type");
+		String usernameString = req.getParameter("username");
+		String passwordString = req.getParameter("password");
+		String devicenameString = req.getParameter("devicename");
+		String phoneosString = req.getParameter("phoneos");
+		String registeripString=req.getRemoteAddr();
+		return logInAction.signUp(typeString, usernameString,passwordString,registeripString, 
+				devicenameString, phoneosString);
 	}
 
 	private LogInAction logInAction;

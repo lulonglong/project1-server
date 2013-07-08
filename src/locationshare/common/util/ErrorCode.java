@@ -7,4 +7,6 @@ public final class ErrorCode {
 
 	// ValidateRegister ErrorCode
 	public static final String VALIDATE_USERNAME_EXIST = "010001";
+	// SINUP ErrorCode
+	public static final String SINUP_FAILED_ = "020001";
 }
