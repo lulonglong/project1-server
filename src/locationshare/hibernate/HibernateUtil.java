@@ -21,6 +21,9 @@ public class HibernateUtil {
 	}
 
 	public static Session getSession() {
-		return sf.openSession();
+		Session session=sf.openSession();
+		System.out.println("isopen:"+session.isOpen());
+		System.out.println("isConnected:"+session.isConnected());
+		return session;
 	}
 }

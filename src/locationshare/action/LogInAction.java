@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.JDBCConnectionException;
 
 import locationshare.base.action.BaseAction;
 import locationshare.base.vo.BaseResultVO;
@@ -44,14 +45,14 @@ public class LogInAction extends BaseAction {
 			if (criteria.uniqueResult() == null)
 				return vo.toSuccessJsonResult();
 			return vo.toErrorJsonResult(ErrorCode.VALIDATE_USERNAME_EXIST);
-		} catch (Exception e) {
+		} catch (JDBCConnectionException e) {
 			logger.error("validateRegister Error:"
 					+ StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
 			if (session != null)
 				session.close();
 		}
-		return vo.toErrorJsonResult(ErrorCode.COMMON_ERROR);
 
 	}
 
@@ -84,9 +85,9 @@ public class LogInAction extends BaseAction {
 			session.save(user);
 			return vo.toSuccessJsonResult(user.getUserid());
 
-		} catch (Exception e) {
+		} catch (JDBCConnectionException e) {
 			logger.error("signUp Error:" + StringUtil.getExceptionStack(e));
-			return vo.toErrorJsonResult(ErrorCode.SINUP_FAILED_);
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
 			if (session != null)
 				session.close();

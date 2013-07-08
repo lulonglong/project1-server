@@ -8,6 +8,15 @@
 		<property name="hibernate.connection.url">jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_locationshare</property>
 		<property name="hibernate.connection.username">1nyomkom3y</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLMyISAMDialect</property>
+		
+		<!-- c3p0 -->
+		<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider </property>
+		<property name="c3p0.min_size">2</property>
+		<property name="c3p0.max_size">5</property>
+		<!-- 25second,sae will disconnect after 30 -->
+		<property name="c3p0.timeout">25</property>
+		<property name="c3p0.validate">true</property>
+		
 		<mapping class="locationshare.hibernate.TbUser" resource="locationshare/hibernate/TbUser.hbm.xml" />
 		<mapping class="locationshare.hibernate.TbException" resource="locationshare/hibernate/TbException.hbm.xml" />
 		<mapping class="locationshare.hibernate.TbLogininfo" resource="locationshare/hibernate/TbLogininfo.hbm.xml" />
