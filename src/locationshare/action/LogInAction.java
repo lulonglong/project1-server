@@ -132,4 +132,11 @@ public class LogInAction extends BaseAction {
 				session.close();
 		}
 	}
+	public String recordException(String userid,String exception,String phoneos){
+		Session session = null ;
+		LogInResultVo vo = new LogInResultVo();
+		
+		
+		return null ;
+	}
 }
