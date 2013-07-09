@@ -13,7 +13,7 @@ public final class ErrorCode {
 	//logIn ErrorCode
 	public static final String LOGIN_FAILED = "030001";
 	//record excepiton 
-	public static final String INVALID_USERID = "000001" ;
+	public static final String EXCEPTION_RECORD_FAILED = "050101" ;
 	
 
 }

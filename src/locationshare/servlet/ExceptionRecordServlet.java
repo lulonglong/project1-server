@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import locationshare.action.LogInAction;
 import locationshare.base.servlet.BaseServlet;
 
-public class ExceptionRecord extends BaseServlet {
+public class ExceptionRecordServlet extends BaseServlet {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)

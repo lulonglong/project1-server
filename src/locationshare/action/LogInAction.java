@@ -8,6 +8,7 @@ import locationshare.base.vo.BaseResultVO;
 import locationshare.common.util.ErrorCode;
 import locationshare.common.util.StringUtil;
 import locationshare.hibernate.HibernateUtil;
+import locationshare.hibernate.TbException;
 import locationshare.hibernate.TbUser;
 import locationshare.vo.LogInResultVo;
 
@@ -23,6 +24,10 @@ import org.hibernate.exception.JDBCConnectionException;
  * @author lulonglong
  * @since JDK1.6
  * 
+ */
+/**
+ * @author Administrator
+ *
  */
 public class LogInAction extends BaseAction {
 	// TODO improve db performance
@@ -132,11 +137,37 @@ public class LogInAction extends BaseAction {
 				session.close();
 		}
 	}
+	/**
+	 * recordException
+	 * @param userid
+	 * @param exception
+	 * @param phoneos
+	 * @return
+	 */
 	public String recordException(String userid,String exception,String phoneos){
 		Session session = null ;
 		LogInResultVo vo = new LogInResultVo();
-		
-		
-		return null ;
+		try {
+			session = HibernateUtil.getSession();
+			Criteria criteria = session.createCriteria(TbException.class);
+			if (StringUtil.isInteger(userid)) {
+				criteria.add(Restrictions.eq("userid", userid));
+				criteria.add(Restrictions.eq("exception", exception));
+				criteria.add(Restrictions.eq("phoneos", phoneos));
+			}
+			List<TbException> exceptions = criteria.list();
+			if (!exceptions.isEmpty()) {
+				return vo.toSuccessJsonResult(0);
+			} else {
+				return vo.toErrorJsonResult(ErrorCode.EXCEPTION_RECORD_FAILED);
+			}
+		} catch (JDBCConnectionException  e) {
+			// TODO: handle exception
+			logger.error("login Error:" + StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
+		}finally{
+			if (session != null)
+				session.close();
+		}
 	}
 }

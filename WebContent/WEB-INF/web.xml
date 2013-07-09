@@ -134,6 +134,19 @@
 		<url-pattern>/RecordLogInInfo</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>ExceptionRecordServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>ExceptionRecordServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ExceptionRecordServlet</servlet-name>
+		<url-pattern>/ExceptionRecord</url-pattern>
+	</servlet-mapping>	
 	<!-- conf file -->
 	<env-entry>
 		<env-entry-name>locationshare_property_file_name</env-entry-name>
