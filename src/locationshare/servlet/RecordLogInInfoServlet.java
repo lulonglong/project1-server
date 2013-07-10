@@ -18,8 +18,13 @@ public class RecordLogInInfoServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		// TODO Auto-generated method stub
-		return "SendToUsersServlet-OK";
+		String useridString = req.getParameter("userid");
+		String devicenameString = req.getParameter("devicename");
+		String phoneosString = req.getParameter("phoneos");
+		String ipString = req.getRemoteAddr();
+
+		return logInAction.recordLoginInfo(useridString, devicenameString,
+				phoneosString, ipString);
 	}
 
 	private LogInAction logInAction;

@@ -5,7 +5,7 @@ import locationshare.common.util.StringUtil;
 import org.lulonglong.base.validator.AbstractParamValidator;
 
 /**
- * 可以用来验证任何正则表达式可以验证的东西
+ * match the regex pattern
  * @author lulonglong
  *
  */
@@ -18,7 +18,7 @@ public class RegexValidator extends AbstractParamValidator {
 		return StringUtil.isNotNull(content)&&!content.matches(pattern);
 	}
 	
-	/**设置正则表达式
+	/**set regex
 	 * @param pattern the pattern to set
 	 */
 	public void setPattern(String pattern) {

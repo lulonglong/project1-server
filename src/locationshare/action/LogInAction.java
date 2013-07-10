@@ -9,6 +9,7 @@ import locationshare.common.util.ErrorCode;
 import locationshare.common.util.StringUtil;
 import locationshare.hibernate.HibernateUtil;
 import locationshare.hibernate.TbException;
+import locationshare.hibernate.TbLogininfo;
 import locationshare.hibernate.TbUser;
 import locationshare.vo.LogInResultVo;
 
@@ -27,7 +28,7 @@ import org.hibernate.exception.JDBCConnectionException;
  */
 /**
  * @author Administrator
- *
+ * 
  */
 public class LogInAction extends BaseAction {
 	// TODO improve db performance
@@ -68,10 +69,17 @@ public class LogInAction extends BaseAction {
 	 * @param password
 	 * @return
 	 */
+	// TODO check the username existing
 	public String signUp(String type, String username, String password,
 			String ip, String devicename, String phoneos) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
+
+		if (StringUtil.isNullOrWhiteSpace(password)
+				&& (StringUtil.isNullOrWhiteSpace(type) || type.equals("0"))) {
+			return vo.toErrorJsonResult(ErrorCode.SIGNUP_PASSWORD_NULL);
+		}
+
 		try {
 
 			session = HibernateUtil.getSession();
@@ -109,8 +117,13 @@ public class LogInAction extends BaseAction {
 	public String logIn(String type, String username, String password) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
-		try {
 
+		if (StringUtil.isNullOrWhiteSpace(password)
+				&& (StringUtil.isNullOrWhiteSpace(type) || type.equals("0"))) {
+			return vo.toErrorJsonResult(ErrorCode.LOGIN_PASSWORD_NULL);
+		}
+
+		try {
 			session = HibernateUtil.getSession();
 			Criteria criteria = session.createCriteria(TbUser.class);
 			if (StringUtil.isNullOrWhiteSpace(type) || type.equals("0")) {
@@ -128,7 +141,7 @@ public class LogInAction extends BaseAction {
 			} else {
 				return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
 			}
-			
+
 		} catch (JDBCConnectionException e) {
 			logger.error("login Error:" + StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
@@ -137,15 +150,18 @@ public class LogInAction extends BaseAction {
 				session.close();
 		}
 	}
+
 	/**
 	 * recordException
+	 * 
 	 * @param userid
 	 * @param exception
 	 * @param phoneos
 	 * @return
 	 */
-	public String recordException(String userid,String exception,String phoneos){
-		Session session = null ;
+	public String recordException(String userid, String exception,
+			String phoneos) {
+		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
 		try {
 			session = HibernateUtil.getSession();
@@ -161,11 +177,40 @@ public class LogInAction extends BaseAction {
 			} else {
 				return vo.toErrorJsonResult(ErrorCode.EXCEPTION_RECORD_FAILED);
 			}
-		} catch (JDBCConnectionException  e) {
+		} catch (JDBCConnectionException e) {
 			// TODO: handle exception
 			logger.error("login Error:" + StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
-		}finally{
+		} finally {
+			if (session != null)
+				session.close();
+		}
+	}
+
+	/**
+	 * recordLoginInfo
+	 * 
+	 * @param userid
+	 * @param devicename
+	 * @param phoneos
+	 * @param ip
+	 * @return
+	 */
+	public String recordLoginInfo(String userid, String devicename,
+			String phoneos, String ip) {
+		BaseResultVO vo = new BaseResultVO();
+		Session session = null;
+		try {
+			session = HibernateUtil.getSession();
+			TbLogininfo logininfo = new TbLogininfo(Integer.parseInt(userid),
+					new Date(), devicename, ip, phoneos);
+			session.save(logininfo);
+			return vo.toSuccessJsonResult();
+		} catch (JDBCConnectionException e) {
+			logger.error("validateRegister Error:"
+					+ StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.LOGININFO_RECORD_FAILED);
+		} finally {
 			if (session != null)
 				session.close();
 		}

@@ -2,34 +2,62 @@
 <validators xmlns="http://www.example.net/test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.net/test validateParam.xsd">
 
-	<servletValidator servletUrl="/SendToAll">
+	<!--ValidateRegister -->
+	<servletValidator servletUrl="/ValidateRegister">
 
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="content" errorCode="010101" />
+			<validateParam name="username" errorCode="010101" />
 		</validator>
-		<validator validatorClass="locationshare.validator.MaxLengthValidator"
-			maxLength="10" charsetName="utf-8">
-			<validateParam name="content" errorCode="010102" />
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[a-z0-9A-Z-_@.]+">
+			<validateParam name="username" errorCode="010102" />
 		</validator>
 
 	</servletValidator>
 
-
-	<servletValidator servletUrl="/SendToUsers">
-
+	<!--SignUp -->
+	<servletValidator servletUrl="/SignUp">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[012]">
+			<validateParam name="type" errorCode="020101" />
+		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="content" errorCode="010201" />
-			<validateParam name="userlist" errorCode="010203" />
+			<validateParam name="username" errorCode="020102" />
+			<validateParam name="phoneos" errorCode="020105" />
+			<validateParam name="devicename" errorCode="020106" />
 		</validator>
-		<validator validatorClass="locationshare.validator.MaxLengthValidator"
-			maxLength="10" charsetName="utf-8">
-			<validateParam name="content" errorCode="020102" />
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[a-z0-9A-Z-_@.]+">
+			<validateParam name="username" errorCode="020103" />
 		</validator>
-		<validator validatorClass="locationshare.validator.ListStringValidator"
-			split=",">
-			<validateParam name="userlist" errorCode="020104" />
-		</validator>
-
 	</servletValidator>
 
+	<!--LogIn -->
+	<servletValidator servletUrl="/LogIn">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[012]">
+			<validateParam name="type" errorCode="030101" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="username" errorCode="030102" />
+		</validator>
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[a-z0-9A-Z-_@.]+">
+			<validateParam name="username" errorCode="030103" />
+		</validator>
+	</servletValidator>
+
+	<!--RecordLogInInfo -->
+	<servletValidator servletUrl="/RecordLogInInfo">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="040102" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="040101" />
+			<validateParam name="phoneos" errorCode="040103" />
+			<validateParam name="devicename" errorCode="040104" />
+		</validator>
+	</servletValidator>
+	
 </validators>
