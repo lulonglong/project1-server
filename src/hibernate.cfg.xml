@@ -11,15 +11,16 @@
 		
 		<!-- c3p0 -->
 		<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider </property>
-		<property name="c3p0.min_size">2</property>
-		<property name="c3p0.max_size">5</property>
-		<!-- 25second,sae will disconnect after 30 -->
-		<property name="c3p0.timeout">25</property>
-		<property name="c3p0.validate">true</property>
-		
-		<mapping class="locationshare.hibernate.TbUser" resource="locationshare/hibernate/TbUser.hbm.xml" />
-		<mapping class="locationshare.hibernate.TbException" resource="locationshare/hibernate/TbException.hbm.xml" />
-		<mapping class="locationshare.hibernate.TbLogininfo" resource="locationshare/hibernate/TbLogininfo.hbm.xml" />
+		<property name="hibernate.c3p0.min_size">2</property>
+		<property name="hibernate.c3p0.max_size">10</property>
+		<!-- 25second,sae will disconnect after 30 
+		<property name="hibernate.c3p0.timeout">25</property>
+		<property name="hibernate.c3p0.validate">true</property>-->
+		<property name="hibernate.c3p0.automaticTestTable">c3p0_testtable</property>
+		<property name="hibernate.c3p0.idle_test_period">25</property>
+		<mapping resource="locationshare/hibernate/TbUser.hbm.xml" />
+		<mapping resource="locationshare/hibernate/TbException.hbm.xml" />
+		<mapping resource="locationshare/hibernate/TbLogininfo.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>
