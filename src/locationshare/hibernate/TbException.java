@@ -1,6 +1,6 @@
 package locationshare.hibernate;
 
-// Generated 2013-7-8 16:26:13 by Hibernate Tools 3.4.0.CR1
+// Generated 2013-7-10 15:57:06 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -14,16 +14,18 @@ public class TbException implements java.io.Serializable {
 	private Date exceptionTime;
 	private String loginOs;
 	private String exceptionDsp;
+	private String appVersion;
 
 	public TbException() {
 	}
 
 	public TbException(int userid, Date exceptionTime, String loginOs,
-			String exceptionDsp) {
+			String exceptionDsp, String appVersion) {
 		this.userid = userid;
 		this.exceptionTime = exceptionTime;
 		this.loginOs = loginOs;
 		this.exceptionDsp = exceptionDsp;
+		this.appVersion = appVersion;
 	}
 
 	public Integer getId() {
@@ -64,6 +66,14 @@ public class TbException implements java.io.Serializable {
 
 	public void setExceptionDsp(String exceptionDsp) {
 		this.exceptionDsp = exceptionDsp;
+	}
+
+	public String getAppVersion() {
+		return this.appVersion;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
 	}
 
 }
