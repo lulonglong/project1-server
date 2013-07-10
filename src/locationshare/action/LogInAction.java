@@ -69,7 +69,6 @@ public class LogInAction extends BaseAction {
 	 * @param password
 	 * @return
 	 */
-	// TODO check the username existing
 	public String signUp(String type, String username, String password,
 			String ip, String devicename, String phoneos) {
 		Session session = null;
@@ -84,15 +83,22 @@ public class LogInAction extends BaseAction {
 
 			session = HibernateUtil.getSession();
 			TbUser user = new TbUser(new Date(), ip, devicename, phoneos);
+			Criteria criteria = session.createCriteria(TbUser.class);
 
 			if (StringUtil.isNullOrWhiteSpace(type) || type.equals("0")) {
 				user.setUsername(username);
 				user.setPassword(password);
+				criteria.add(Restrictions.eq("username", username));
 			} else if (type.equals("1")) {
 				user.setQq(username);
+				criteria.add(Restrictions.eq("qq", username));
 			} else if (type.equals("2")) {
 				user.setSina(username);
+				criteria.add(Restrictions.eq("sina", username));
 			}
+
+			if (criteria.uniqueResult() != null)
+				return vo.toErrorJsonResult(ErrorCode.SIGNUP_USERNAME_OCCUPY);
 
 			session.save(user);
 			return vo.toSuccessJsonResult(user.getUserid());
