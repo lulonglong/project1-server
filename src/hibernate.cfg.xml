@@ -17,7 +17,7 @@
 		<property name="hibernate.c3p0.timeout">25</property>
 		<property name="hibernate.c3p0.validate">true</property>-->
 		<property name="hibernate.c3p0.automaticTestTable">c3p0_testtable</property>
-		<property name="hibernate.c3p0.idle_test_period">25</property>
+		<property name="hibernate.c3p0.idle_test_period">8</property>
 		<mapping resource="locationshare/hibernate/TbUser.hbm.xml" />
 		<mapping resource="locationshare/hibernate/TbException.hbm.xml" />
 		<mapping resource="locationshare/hibernate/TbLogininfo.hbm.xml" />
