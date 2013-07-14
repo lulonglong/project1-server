@@ -6,11 +6,11 @@
 	<servletValidator servletUrl="/ValidateRegister">
 
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="username" errorCode="010101" />
+			<validateParam name="username" errorCode="0101101" />
 		</validator>
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[a-z0-9A-Z-_@.]+">
-			<validateParam name="username" errorCode="010102" />
+			<validateParam name="username" errorCode="0101102" />
 		</validator>
 
 	</servletValidator>
@@ -19,16 +19,16 @@
 	<servletValidator servletUrl="/SignUp">
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[012]">
-			<validateParam name="type" errorCode="020101" />
+			<validateParam name="type" errorCode="0102101" />
 		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="username" errorCode="020102" />
-			<validateParam name="phoneos" errorCode="020105" />
-			<validateParam name="devicename" errorCode="020106" />
+			<validateParam name="username" errorCode="0102102" />
+			<validateParam name="phoneos" errorCode="0102105" />
+			<validateParam name="devicename" errorCode="0102106" />
 		</validator>
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[a-z0-9A-Z-_@.]+">
-			<validateParam name="username" errorCode="020103" />
+			<validateParam name="username" errorCode="0102103" />
 		</validator>
 	</servletValidator>
 
@@ -36,14 +36,14 @@
 	<servletValidator servletUrl="/LogIn">
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[012]">
-			<validateParam name="type" errorCode="030101" />
+			<validateParam name="type" errorCode="0103101" />
 		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="username" errorCode="030102" />
+			<validateParam name="username" errorCode="0103102" />
 		</validator>
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[a-z0-9A-Z-_@.]+">
-			<validateParam name="username" errorCode="030103" />
+			<validateParam name="username" errorCode="0103103" />
 		</validator>
 	</servletValidator>
 
@@ -51,12 +51,12 @@
 	<servletValidator servletUrl="/RecordLogInInfo">
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[0-9]+">
-			<validateParam name="userid" errorCode="040102" />
+			<validateParam name="userid" errorCode="0104102" />
 		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="userid" errorCode="040101" />
-			<validateParam name="phoneos" errorCode="040103" />
-			<validateParam name="devicename" errorCode="040104" />
+			<validateParam name="userid" errorCode="0104101" />
+			<validateParam name="phoneos" errorCode="0104103" />
+			<validateParam name="devicename" errorCode="0104104" />
 		</validator>
 	</servletValidator>
 	
