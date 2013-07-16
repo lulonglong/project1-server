@@ -60,4 +60,37 @@
 		</validator>
 	</servletValidator>
 	
+	<!-- UpdateUserDetail -->
+	<servletValidator servletUrl="/UpdateUserDetail">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="0201101" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0201102" />
+		</validator>
+	</servletValidator>
+	
+	<!-- UpdateSignature -->
+	<servletValidator servletUrl="/UpdateSignature">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="0202101" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0202102" />
+		</validator>
+	</servletValidator>
+	
+	<!-- UpdateHeadPortrait -->
+	<servletValidator servletUrl="/UpdateHeadPortrait">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="0203101" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0203102" />
+		</validator>
+	</servletValidator>
+	
 </validators>

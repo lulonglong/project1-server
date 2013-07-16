@@ -15,8 +15,11 @@
 	<bean id="logInAction" class="locationshare.action.LogInAction"
 		scope="singleton">
 	</bean>
+	<bean id="profileAction" class="locationshare.action.ProfileAction"
+		scope="singleton">
+	</bean>
 
-	<!-- servlet instance -->
+	<!-- servlet login instance -->
 	<bean id="validateRegisterServlet" class="locationshare.servlet.ValidateRegisterServlet"
 		scope="singleton">
 		<property name="logInAction" ref="logInAction" />
@@ -40,4 +43,19 @@
 		scope="singleton">
 		<property name="logInAction" ref="logInAction" />
 	</bean>
+
+	<!-- servlet profile instance -->
+	<bean id="updateUserDetailServlet" class="locationshare.servlet.UpdateUserDetailServlet"
+		scope="singleton">
+		<property name="profileAction" ref="profileAction" />
+	</bean>
+	<bean id="updateSignatureServlet" class="locationshare.servlet.UpdateSignatureServlet"
+		scope="singleton">
+		<property name="profileAction" ref="profileAction" />
+	</bean>
+	<bean id="updateHeadPortraitServlet" class="locationshare.servlet.UpdateHeadPortraitServlet"
+		scope="singleton">
+		<property name="profileAction" ref="profileAction" />
+	</bean>
+
 </beans> 

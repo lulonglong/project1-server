@@ -77,7 +77,7 @@
 		<listener-class>org.lulonglong.listener.ValidateListener</listener-class>
 	</listener>
 
-	<!-- servlets -->
+	<!-- servlets-LogIn -->
 	<servlet>
 		<servlet-name>ValidateRegisterServlet</servlet-name>
 		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
@@ -147,6 +147,49 @@
 		<servlet-name>ExceptionRecordServlet</servlet-name>
 		<url-pattern>/ExceptionRecord</url-pattern>
 	</servlet-mapping>	
+	
+	<!--servlet-Profile-->
+	<servlet>
+		<servlet-name>UpdateUserDetailServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>updateUserDetailServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateUserDetailServlet</servlet-name>
+		<url-pattern>/UpdateUserDetail</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>UpdateSignatureServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>updateSignatureServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateSignatureServlet</servlet-name>
+		<url-pattern>/UpdateSignature</url-pattern>
+	</servlet-mapping>
+		
+	<servlet>
+		<servlet-name>UpdateHeadPortraitServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>updateHeadPortraitServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateHeadPortraitServlet</servlet-name>
+		<url-pattern>/UpdateHeadPortrait</url-pattern>
+	</servlet-mapping>
 	<!-- conf file -->
 	<env-entry>
 		<env-entry-name>locationshare_property_file_name</env-entry-name>
