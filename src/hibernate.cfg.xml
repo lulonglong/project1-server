@@ -21,6 +21,6 @@
 		<mapping resource="locationshare/hibernate/TbUser.hbm.xml" />
 		<mapping resource="locationshare/hibernate/TbException.hbm.xml" />
 		<mapping resource="locationshare/hibernate/TbLogininfo.hbm.xml" />
-		
+		<mapping resource="locationshare/hibernate/TbUserDetail.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

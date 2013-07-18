@@ -5,4 +5,5 @@
   <table-filter match-catalog="app_locationshare" match-name="tb_exception"/>
   <table-filter match-catalog="app_locationshare" match-name="tb_logininfo"/>
   <table-filter match-catalog="app_locationshare" match-name="tb_user"/>
+  <table-filter match-catalog="app_locationshare" match-name="tb_user_detail"/>
 </hibernate-reverse-engineering>

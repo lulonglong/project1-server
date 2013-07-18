@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-7-18 15:09:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="locationshare.hibernate.TbUserDetail" table="tb_user_detail" catalog="app_locationshare">
+        <id name="userid" type="int">
+            <column name="userid" />
+            <generator class="assigned" />
+        </id>
+        <property name="nickname" type="string">
+            <column name="nickname" length="32" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="64" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="256" />
+        </property>
+        <property name="school" type="string">
+            <column name="school" length="64" />
+        </property>
+        <property name="sex" type="string">
+            <column name="sex" length="2" />
+        </property>
+        <property name="age" type="java.lang.Integer">
+            <column name="age" />
+        </property>
+        <property name="telephone" type="string">
+            <column name="telephone" length="32" />
+        </property>
+        <property name="highVcard" type="string">
+            <column name="high_vcard" length="256" />
+        </property>
+        <property name="lowVcard" type="string">
+            <column name="low_vcard" length="256" />
+        </property>
+        <property name="vcardUpdateDate" type="timestamp">
+            <column name="`vcard_update-date`" length="19" />
+        </property>
+        <property name="signature" type="string">
+            <column name="signature" length="256" />
+        </property>
+    </class>
+</hibernate-mapping>
