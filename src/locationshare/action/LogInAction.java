@@ -1,5 +1,7 @@
 package locationshare.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.JDBCConnectionException;
+
+import antlr.StringUtils;
 
 /**
  * Descriptions
@@ -166,23 +170,25 @@ public class LogInAction extends BaseAction {
 	 * @return
 	 */
 	public String recordException(String userid, String exception,
-			String phoneos) {
+			String phoneos,String appversion,String dateStr) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
 		try {
 			session = HibernateUtil.getSession();
-			Criteria criteria = session.createCriteria(TbException.class);
-			if (StringUtil.isInteger(userid)) {
-				criteria.add(Restrictions.eq("userid", userid));
-				criteria.add(Restrictions.eq("exception", exception));
-				criteria.add(Restrictions.eq("phoneos", phoneos));
-			}
-			List<TbException> exceptions = criteria.list();
-			if (!exceptions.isEmpty()) {
-				return vo.toSuccessJsonResult(0);
-			} else {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = null ;
+			try {
+				date = sdf.parse(dateStr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 				return vo.toErrorJsonResult(ErrorCode.EXCEPTION_RECORD_FAILED);
 			}
+			TbException tbException = new TbException(Integer.parseInt(userid),
+					date,exception,phoneos,appversion) ;
+
+			session.save(tbException) ;
+			return vo.toSuccessJsonResult(0);
 		} catch (JDBCConnectionException e) {
 			// TODO: handle exception
 			logger.error("login Error:" + StringUtil.getExceptionStack(e));

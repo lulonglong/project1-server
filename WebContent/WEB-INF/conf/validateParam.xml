@@ -46,7 +46,16 @@
 			<validateParam name="username" errorCode="0103103" />
 		</validator>
 	</servletValidator>
-
+	<!--RecordException -->
+	<servletValidator servletUrl="/RecordException">
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0103102" />
+			<validateParam name="exception" errorCode="0103103" />
+			<validateParam name="phoneos" errorCode="0103104" />
+			<validateParam name="appversion" errorCode="0103105" />
+			<validateParam name="date" errorCode="0103106" />
+		</validator>
+	</servletValidator>
 	<!--RecordLogInInfo -->
 	<servletValidator servletUrl="/RecordLogInInfo">
 		<validator validatorClass="locationshare.validator.RegexValidator"
