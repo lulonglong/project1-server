@@ -22,6 +22,14 @@ public final class ErrorCode {
 	public static final String LOGININFO_RECORD_FAILED = "0104001";
 	
 	// record excepiton
-	public static final String EXCEPTION_RECORD_FAILED = "0105101";
+	public static final String EXCEPTION_RECORD_FAILED = "0105001";
 
+	//update UserDetail
+	public static final String UPDATE_USERDETAIL_FAILED = "0201001";
+	
+	////update signature
+	public static final String UPDATE_SIGNATURE_FAILED = "0202001";
+	
+	//update headportrait
+	public static final String UPDATE_HEADPORTRAIT_FAILED = "0203001";
 }

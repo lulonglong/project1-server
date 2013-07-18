@@ -18,10 +18,9 @@ public class UpdateSignatureServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		String typeString = req.getParameter("type");
-		String usernameString = req.getParameter("username");
-		String passwordString = req.getParameter("password");
-		return "profile";
+		String userid= req.getParameter("userid");
+		String signature = req.getParameter("signature");
+		return profileAction.updateSignature(userid,signature);
 	}
 
 	private ProfileAction profileAction;

@@ -18,10 +18,15 @@ public class UpdateUserDetailServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		String typeString = req.getParameter("type");
-		String usernameString = req.getParameter("username");
-		String passwordString = req.getParameter("password");
-		return "profile";
+		String userid = req.getParameter("userid");
+		String nickname = req.getParameter("nickname");
+		String address = req.getParameter("address");
+		String email = req.getParameter("email");
+		String phonenumber = req.getParameter("phonenumber");
+		String sex= req.getParameter("sex");
+		String age = req.getParameter("age");
+		String school = req.getParameter("school");
+		return profileAction.updateUserDetail(userid,nickname,address,email,phonenumber,sex,age,school);
 	}
 
 	private ProfileAction profileAction;

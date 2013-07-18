@@ -64,10 +64,11 @@
 	<servletValidator servletUrl="/UpdateUserDetail">
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[0-9]+">
-			<validateParam name="userid" errorCode="0201101" />
+			<validateParam name="userid" errorCode="0201102" />
+			<validateParam name="age" errorCode="0201103" />
 		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="userid" errorCode="0201102" />
+			<validateParam name="userid" errorCode="0201101" />
 		</validator>
 	</servletValidator>
 	
@@ -75,10 +76,10 @@
 	<servletValidator servletUrl="/UpdateSignature">
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[0-9]+">
-			<validateParam name="userid" errorCode="0202101" />
+			<validateParam name="userid" errorCode="0202102" />
 		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="userid" errorCode="0202102" />
+			<validateParam name="userid" errorCode="0202101" />
 		</validator>
 	</servletValidator>
 	
