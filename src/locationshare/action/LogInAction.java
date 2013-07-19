@@ -169,7 +169,7 @@ public class LogInAction extends BaseAction {
 	 * @param phoneos
 	 * @return
 	 */
-	public String recordException(String userid, String exception,
+	public String recordException(String exception,
 			String phoneos,String appversion,String dateStr) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
@@ -184,8 +184,8 @@ public class LogInAction extends BaseAction {
 				e.printStackTrace();
 				return vo.toErrorJsonResult(ErrorCode.EXCEPTION_RECORD_FAILED);
 			}
-			TbException tbException = new TbException(Integer.parseInt(userid),
-					date,exception,phoneos,appversion) ;
+			TbException tbException = new TbException(date,
+					exception,phoneos,appversion) ;
 
 			session.save(tbException) ;
 			return vo.toSuccessJsonResult(0);

@@ -23,8 +23,8 @@
 		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
 			<validateParam name="username" errorCode="0102102" />
-			<validateParam name="phoneos" errorCode="0102105" />
-			<validateParam name="devicename" errorCode="0102106" />
+<!-- 			<validateParam name="phoneos" errorCode="0102105" /> -->
+<!-- 			<validateParam name="devicename" errorCode="0102106" /> -->
 		</validator>
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[a-z0-9A-Z-_@.]+">
@@ -49,7 +49,6 @@
 	<!--RecordException -->
 	<servletValidator servletUrl="/RecordException">
 		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="userid" errorCode="0103102" />
 			<validateParam name="exception" errorCode="0103103" />
 			<validateParam name="phoneos" errorCode="0103104" />
 			<validateParam name="appversion" errorCode="0103105" />

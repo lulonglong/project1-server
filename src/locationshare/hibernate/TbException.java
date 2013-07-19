@@ -19,9 +19,8 @@ public class TbException implements java.io.Serializable {
 	public TbException() {
 	}
 
-	public TbException(int userid, Date exceptionTime, String loginOs,
+	public TbException(Date exceptionTime, String loginOs,
 			String exceptionDsp, String appVersion) {
-		this.userid = userid;
 		this.exceptionTime = exceptionTime;
 		this.loginOs = loginOs;
 		this.exceptionDsp = exceptionDsp;

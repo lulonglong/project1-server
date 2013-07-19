@@ -15,15 +15,12 @@ public class ExceptionRecordServlet extends BaseServlet {
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
 		// TODO Auto-generated method stub
-		String userid = req.getParameter("userid");
+		//String userid = req.getParameter("userid");
 		String exception = req.getParameter("exception") ;
 		String phoneos = req.getParameter("phoneos") ;
 		String appversion = req.getParameter("appversion") ;
 		String date = req.getParameter("date") ;
-//		TbException(int userid, Date exceptionTime, String loginOs,
-//				String exceptionDsp, String appVersion		
-//		String d
-		return logInAction.recordException(userid, exception, phoneos,appversion,date);
+		return logInAction.recordException(exception, phoneos,appversion,date);
 	}
 	private LogInAction logInAction;
 
