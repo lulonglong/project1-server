@@ -83,7 +83,7 @@ public class ProfileAction extends BaseAction {
 		} catch (JDBCConnectionException e) {
 			logger.error("validateRegister Error:"
 					+ StringUtil.getExceptionStack(e));
-			return vo.toErrorJsonResult(ErrorCode.LOGININFO_RECORD_FAILED);
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
 			if (session != null)
 				session.close();
@@ -135,7 +135,7 @@ public class ProfileAction extends BaseAction {
 		} catch (JDBCConnectionException e) {
 			logger.error("updateUserDetail Error:"
 					+ StringUtil.getExceptionStack(e));
-			return vo.toErrorJsonResult(ErrorCode.UPDATE_USERDETAIL_FAILED);
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
 			if (session != null)
 				session.close();
@@ -171,7 +171,7 @@ public class ProfileAction extends BaseAction {
 		} catch (JDBCConnectionException e) {
 			logger.error("updateUserDetail Error:"
 					+ StringUtil.getExceptionStack(e));
-			return vo.toErrorJsonResult(ErrorCode.UPDATE_SIGNATURE_FAILED);
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		}  finally {
 			if (session != null)
 				session.close();
