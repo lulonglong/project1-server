@@ -112,14 +112,14 @@ public class ProfileAction extends BaseAction {
 			session = HibernateUtil.getSession();
 			Query query = session
 					.createQuery("update TbUserDetail detail set detail.nickname=:nickname,detail.email=:email,detail.address=:address,detail.school=:school,detail.sex=:sex,detail.age=:age,detail.telephone=:phonenumber where detail.userid=:userid");
-			query.setParameter("userid", userid);
-			query.setParameter("nickname", nickname);
-			query.setParameter("email", email);
-			query.setParameter("address", address);
-			query.setParameter("school", school);
-			query.setParameter("sex", sex);
-			query.setParameter("age", age);
-			query.setParameter("phonenumber", phonenumber);
+			query.setString("userid", userid);
+			query.setString("nickname", nickname);
+			query.setString("email", email);
+			query.setString("address", address);
+			query.setString("school", school);
+			query.setString("sex", sex);
+			query.setString("age", age);
+			query.setString("phonenumber", phonenumber);
 			int count = query.executeUpdate();
 			if (count == 0) {
 				TbUserDetail userDetail = new TbUserDetail(
@@ -127,6 +127,7 @@ public class ProfileAction extends BaseAction {
 						school, sex, Integer.parseInt(age), phonenumber, null,
 						null, null, null);
 				session.save(userDetail);
+				session.flush();
 			}
 
 			return vo.toSuccessJsonResult();
@@ -160,8 +161,9 @@ public class ProfileAction extends BaseAction {
 			int count = query.executeUpdate();
 			if (count == 0) {
 				TbUserDetail userDetail = new TbUserDetail(Integer.parseInt(userid));
-				userDetail.setSignature("dd");
+				userDetail.setSignature(signature);
 				session.save(userDetail);
+				session.flush();
 			}
 
 			return vo.toSuccessJsonResult();
