@@ -106,7 +106,7 @@ public class BaseResultVO {
 	 * @return
 	 */
 	public  String toSuccessJsonResult() {
-		return "{\"code\"=\"0\"}";
+		return "{\"code\":\"0\"}";
 	}
 	
 }
