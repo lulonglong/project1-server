@@ -131,9 +131,8 @@ public class StringUtil {
 			throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
 		String result = null;
-		char hexDigits[] = {
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-				'e', 'f' };
+		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'a', 'b', 'c', 'd', 'e', 'f' };
 
 		if (paraStr != null) {
 
@@ -155,6 +154,23 @@ public class StringUtil {
 		}
 
 		return result;
+	}
+
+	/**
+	 * 16length md5
+	 * @param str
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String encodeBy16MD5(String str)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		
+		String resultString = encodeByMD5(str);
+		if (isNullOrWhiteSpace(resultString))
+			return null;
+		return resultString.substring(8, 24);
+
 	}
 
 	/**
@@ -254,7 +270,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * stringlist with split  e.g. 1s,we,ff,ff
+	 * stringlist with split e.g. 1s,we,ff,ff
 	 * 
 	 * @param str
 	 * @param split
@@ -274,9 +290,9 @@ public class StringUtil {
 		return true;
 	}
 
-
 	/**
-	 *  is it a static webpage 
+	 * is it a static webpage
+	 * 
 	 * @param urlString
 	 * @return
 	 */
@@ -288,7 +304,7 @@ public class StringUtil {
 				|| urlString.contains("htm") || urlString.matches("^/$")) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
