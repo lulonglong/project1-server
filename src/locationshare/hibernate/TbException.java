@@ -10,7 +10,6 @@ import java.util.Date;
 public class TbException implements java.io.Serializable {
 
 	private Integer id;
-	private int userid;
 	private Date exceptionTime;
 	private String loginOs;
 	private String exceptionDsp;
@@ -33,14 +32,6 @@ public class TbException implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public int getUserid() {
-		return this.userid;
-	}
-
-	public void setUserid(int userid) {
-		this.userid = userid;
 	}
 
 	public Date getExceptionTime() {

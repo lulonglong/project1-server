@@ -8,9 +8,6 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="userid" type="int">
-            <column name="userid" not-null="true" />
-        </property>
         <property name="exceptionTime" type="timestamp">
             <column name="exception_time" length="19" not-null="true" />
         </property>
