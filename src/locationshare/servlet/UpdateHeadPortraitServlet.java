@@ -1,19 +1,19 @@
 package locationshare.servlet;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
-
 import locationshare.action.ProfileAction;
 import locationshare.base.servlet.BaseServlet;
+import locationshare.base.vo.BaseResultVO;
+import locationshare.common.util.ErrorCode;
+import locationshare.common.util.StringUtil;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Servlet implementation class UpdateBatchLocationServlet
@@ -24,33 +24,29 @@ public class UpdateHeadPortraitServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-
 		String userid = req.getParameter("userid");
-		ServletInputStream inputStream = null;
-		BufferedOutputStream outputStream = null;
+		BaseResultVO vo = new BaseResultVO();
 
 		try {
-			inputStream = req.getInputStream();
-			outputStream = new BufferedOutputStream(new FileOutputStream(
-					"D:/1.png"));
-			byte[] buffer = new byte[10000];
-			int count = 0;
-
-			while ((count = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, count);
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			upload.setHeaderEncoding("UTF-8");
+			if (!ServletFileUpload.isMultipartContent(req)) {
+				return vo.toErrorJsonResult(ErrorCode.HEADPORTRAIT_NULL);
 			}
-			outputStream.flush();
+
+			FileItem headportrait = (FileItem) upload.parseRequest(req).get(0);
+			if (headportrait.isFormField()) {
+				return vo.toErrorJsonResult(ErrorCode.HEADPORTRAIT_NULL);
+			}
+
+			return profileAction.updatePortrait(userid, headportrait);
 
 		} catch (Exception e) {
-			logger.error("get image failed");
-		} finally {
-			if (inputStream != null)
-				inputStream.close();
-			if (outputStream != null)
-				outputStream.close();
+			logger.error("get image failed:" + StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.UPDATE_HEADPORTRAIT_FAILED);
 		}
 
-		return "profile";
 	}
 
 	private ProfileAction profileAction;

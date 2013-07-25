@@ -32,4 +32,5 @@ public final class ErrorCode {
 	
 	//update headportrait
 	public static final String UPDATE_HEADPORTRAIT_FAILED = "0203001";
+	public static final String HEADPORTRAIT_NULL = "0203103";
 }

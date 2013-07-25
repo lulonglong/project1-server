@@ -1,24 +1,27 @@
 package locationshare.action;
 
-import java.util.Date;
-import java.util.List;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import locationshare.base.action.BaseAction;
 import locationshare.base.vo.BaseResultVO;
 import locationshare.common.util.ErrorCode;
 import locationshare.common.util.StringUtil;
 import locationshare.hibernate.HibernateUtil;
-import locationshare.hibernate.TbException;
-import locationshare.hibernate.TbLogininfo;
-import locationshare.hibernate.TbUser;
 import locationshare.hibernate.TbUserDetail;
-import locationshare.vo.LogInResultVo;
+import net.coobird.thumbnailator.Thumbnails;
 
-import org.hibernate.Criteria;
+import org.apache.commons.fileupload.FileItem;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.JDBCConnectionException;
+
+import com.sina.sae.storage.SaeStorage;
+import com.sina.sae.util.SaeUserInfo;
 
 /**
  * Descriptions
@@ -33,63 +36,6 @@ import org.hibernate.exception.JDBCConnectionException;
  * 
  */
 public class ProfileAction extends BaseAction {
-	// TODO improve db performance
-	/**
-	 * is the username existing
-	 * 
-	 * @param usernameString
-	 * @return
-	 */
-	public String validateRegister(String usernameString) {
-		BaseResultVO vo = new BaseResultVO();
-		Session session = null;
-		try {
-			session = HibernateUtil.getSession();
-			Criteria criteria = session.createCriteria(TbUser.class);
-			criteria.add(Restrictions.eq("username", usernameString));
-
-			if (criteria.uniqueResult() == null)
-				return vo.toSuccessJsonResult();
-			return vo.toErrorJsonResult(ErrorCode.VALIDATE_USERNAME_EXIST);
-		} catch (JDBCConnectionException e) {
-			logger.error("validateRegister Error:"
-					+ StringUtil.getExceptionStack(e));
-			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
-		} finally {
-			if (session != null)
-				session.close();
-		}
-	}
-
-	/**
-	 * recordLoginInfo
-	 * 
-	 * @param userid
-	 * @param devicename
-	 * @param phoneos
-	 * @param ip
-	 * @return
-	 */
-	public String recordLoginInfo(String userid, String devicename,
-			String phoneos, String ip) {
-		BaseResultVO vo = new BaseResultVO();
-		Session session = null;
-		try {
-			session = HibernateUtil.getSession();
-			TbLogininfo logininfo = new TbLogininfo(Integer.parseInt(userid),
-					new Date(), devicename, ip, phoneos);
-			session.save(logininfo);
-			return vo.toSuccessJsonResult();
-		} catch (JDBCConnectionException e) {
-			logger.error("validateRegister Error:"
-					+ StringUtil.getExceptionStack(e));
-			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
-		} finally {
-			if (session != null)
-				session.close();
-		}
-	}
-
 	/**
 	 * 更新个人资料
 	 * 
@@ -154,13 +100,15 @@ public class ProfileAction extends BaseAction {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSession();
-			
-			Query query = session.createQuery("update TbUserDetail detail set detail.signature=:signature where detail.userid=:userid");
+
+			Query query = session
+					.createQuery("update TbUserDetail detail set detail.signature=:signature where detail.userid=:userid");
 			query.setString("userid", userid);
 			query.setString("signature", signature);
 			int count = query.executeUpdate();
 			if (count == 0) {
-				TbUserDetail userDetail = new TbUserDetail(Integer.parseInt(userid));
+				TbUserDetail userDetail = new TbUserDetail(
+						Integer.parseInt(userid));
 				userDetail.setSignature(signature);
 				session.save(userDetail);
 				session.flush();
@@ -172,9 +120,120 @@ public class ProfileAction extends BaseAction {
 			logger.error("updateUserDetail Error:"
 					+ StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
-		}  finally {
+		} finally {
 			if (session != null)
 				session.close();
+		}
+	}
+
+	public String updatePortrait(String userid, FileItem headportrait) {
+		
+		String fileName = headportrait.getName();
+		String suffixString = StringUtil.getFileSuffix(fileName);
+		String portraitFilename = userid + suffixString;
+		String thumbnailFilename = userid + "-thumbnail" + suffixString;
+		String tmpPortraitPath = SaeUserInfo.getSaeTmpPath() + "/"
+				+ portraitFilename;
+		String tmpThumbnailPath = SaeUserInfo.getSaeTmpPath() + "/"
+				+ thumbnailFilename;
+
+		BaseResultVO vo = new BaseResultVO();
+		Session session = null;
+		InputStream inputStream = null;
+		BufferedOutputStream portraitOutputStream = null;
+		FileInputStream portraitInputStream = null;
+		FileInputStream thumbnailInputStream = null;
+
+		try {
+			// save portrait
+			inputStream = headportrait.getInputStream();
+			portraitOutputStream = new BufferedOutputStream(
+					new FileOutputStream(tmpPortraitPath));
+
+			byte[] buffer = new byte[10000];
+			int count = 0;
+
+			while ((count = inputStream.read(buffer)) != -1) {
+				portraitOutputStream.write(buffer, 0, count);
+			}
+			portraitOutputStream.flush();
+
+			// get thumbnail
+			Thumbnails.of(tmpPortraitPath).size(96, 96)
+					.toFile(tmpThumbnailPath);
+
+			// upload portrait to storage
+			portraitInputStream = new FileInputStream(tmpPortraitPath);
+			ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+			while ((count = portraitInputStream.read(buffer)) != -1) {
+				out.write(buffer, 0, count);
+			}
+			SaeStorage storage = new SaeStorage();
+			storage.write("image", portraitFilename, out.toByteArray());
+
+			// upload thumbnail to storage
+			thumbnailInputStream = new FileInputStream(tmpThumbnailPath);
+			out.reset();
+			while ((count = thumbnailInputStream.read(buffer)) != -1) {
+				out.write(buffer, 0, count);
+			}
+			storage.write("image", thumbnailFilename, out.toByteArray());
+
+			// get storage portrait url
+			String highVcard = storage.getUrl("image", portraitFilename);
+			String lowVcard = storage.getUrl("image", thumbnailFilename);
+
+			// save database
+			session = HibernateUtil.getSession();
+			Query query = session
+					.createQuery("update TbUserDetail set highVcard=:highVcard,lowVcard=:lowVcard where userid=:userid");
+			query.setString("userid", userid);
+			query.setString("lowVcard", lowVcard);
+			query.setString("highVcard", highVcard);
+			int updatedCount = query.executeUpdate();
+			if (updatedCount == 0) {
+				TbUserDetail userDetail = new TbUserDetail(
+						Integer.parseInt(userid));
+				userDetail.setLowVcard(lowVcard);
+				userDetail.setHighVcard(highVcard);
+				session.save(userDetail);
+				session.flush();
+			}
+
+			return vo.toSuccessJsonResult();
+
+		} catch (IOException e) {
+			logger.error("save image failed:" + StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.UPDATE_HEADPORTRAIT_FAILED);
+			
+		} finally {
+			if (session != null)
+				session.close();
+			if (inputStream != null)
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					logger.error("close inputStream failed");
+				}
+			if (portraitOutputStream != null)
+				try {
+					portraitOutputStream.close();
+				} catch (IOException e) {
+					logger.error("close portraitOutputStream failed");
+				}
+			if (thumbnailInputStream != null)
+				try {
+					thumbnailInputStream.close();
+				} catch (IOException e) {
+					logger.error("close thumbnailInputStream failed");
+				}
+			if (portraitInputStream != null) {
+				try {
+					portraitInputStream.close();
+				} catch (IOException e) {
+					logger.error("close portraitInputStream failed");
+				}
+			}
 		}
 	}
 }

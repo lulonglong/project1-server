@@ -158,6 +158,7 @@ public class StringUtil {
 
 	/**
 	 * 16length md5
+	 * 
 	 * @param str
 	 * @return
 	 * @throws NoSuchAlgorithmException
@@ -165,7 +166,7 @@ public class StringUtil {
 	 */
 	public static String encodeBy16MD5(String str)
 			throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		
+
 		String resultString = encodeByMD5(str);
 		if (isNullOrWhiteSpace(resultString))
 			return null;
@@ -311,5 +312,14 @@ public class StringUtil {
 	public static boolean isMobileClient(String userAgentString) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public static String getFileSuffix(String filename) {
+		if (isNullOrWhiteSpace(filename))
+			return null;
+		int splitindex = filename.lastIndexOf(".");
+		if (splitindex == -1)
+			return null;
+		return filename.substring(splitindex);
 	}
 }
