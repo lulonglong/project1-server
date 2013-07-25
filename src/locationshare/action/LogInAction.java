@@ -15,12 +15,11 @@ import locationshare.hibernate.TbLogininfo;
 import locationshare.hibernate.TbUser;
 import locationshare.vo.LogInResultVo;
 
+import org.apache.catalina.connector.Request;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.JDBCConnectionException;
-
-import antlr.StringUtils;
 
 /**
  * Descriptions
@@ -124,7 +123,7 @@ public class LogInAction extends BaseAction {
 	 * @param password
 	 * @return
 	 */
-	public String logIn(String type, String username, String password) {
+	public String logIn(String type, String username, String password,String ip,String userAgent) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
 
@@ -145,11 +144,30 @@ public class LogInAction extends BaseAction {
 				criteria.add(Restrictions.eq("sina", username));
 			}
 
+			@SuppressWarnings("unchecked")
 			List<TbUser> users = criteria.list();
+			String devicename=StringUtil.getDeviceName(userAgent);
+			String phoneos=StringUtil.getClientOS(userAgent);
+			
 			if (!users.isEmpty()) {
+				
+				recordLoginInfo(users.get(0).getUserid().toString(), devicename, phoneos, ip);
 				return vo.toSuccessJsonResult(users.get(0).getUserid());
+				
 			} else {
-				return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
+				
+				if(type.equals("0")){
+					return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
+				}
+				
+				String result=signUp(type, username, null, ip,devicename ,phoneos );
+				if(result.contains("\"code\":\"1\"")){
+					return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
+				}
+				//TODO read userid
+				String userid="";
+				recordLoginInfo(users.get(0).getUserid().toString(), devicename, phoneos, ip);
+				return result;
 			}
 
 		} catch (JDBCConnectionException e) {
@@ -169,14 +187,14 @@ public class LogInAction extends BaseAction {
 	 * @param phoneos
 	 * @return
 	 */
-	public String recordException(String exception,
-			String phoneos,String appversion,String dateStr) {
+	public String recordException(String exception, String phoneos,
+			String appversion, String dateStr) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
 		try {
 			session = HibernateUtil.getSession();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = null ;
+			Date date = null;
 			try {
 				date = sdf.parse(dateStr);
 			} catch (ParseException e) {
@@ -184,10 +202,10 @@ public class LogInAction extends BaseAction {
 				e.printStackTrace();
 				return vo.toErrorJsonResult(ErrorCode.EXCEPTION_RECORD_FAILED);
 			}
-			TbException tbException = new TbException(date,
-					exception,phoneos,appversion) ;
+			TbException tbException = new TbException(date, exception, phoneos,
+					appversion);
 
-			session.save(tbException) ;
+			session.save(tbException);
 			return vo.toSuccessJsonResult(0);
 		} catch (JDBCConnectionException e) {
 			// TODO: handle exception

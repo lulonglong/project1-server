@@ -20,6 +20,7 @@ public class LogInServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
+		String userAgent=req.getHeader("User-Agent");
 		String typeString = req.getParameter("type");
 		String usernameString = req.getParameter("username");
 		String passwordString = req.getParameter("password");
@@ -31,7 +32,7 @@ public class LogInServlet extends BaseServlet {
 			}
 		}
 
-		return logInAction.logIn(typeString, usernameString, passwordString);
+		return logInAction.logIn(typeString, usernameString, passwordString,userAgent,req.getRemoteAddr());
 	}
 
 	private LogInAction logInAction;

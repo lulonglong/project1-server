@@ -21,7 +21,7 @@ public class SignUpServlet extends BaseServlet {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		String typeString = req.getParameter("type");
+		String userAgent=req.getHeader("User-Agent");
 		String usernameString = req.getParameter("username");
 		String passwordString = req.getParameter("password");
 		if (StringUtil.isNotNull(passwordString)) {
@@ -31,11 +31,11 @@ public class SignUpServlet extends BaseServlet {
 				logger.error("MD5加密密码失败");
 			}
 		}
-		String devicenameString = req.getParameter("devicename");
-		String phoneosString = req.getParameter("phoneos");
+		String devicenameString = StringUtil.getDeviceName(userAgent);
+		String phoneosString = StringUtil.getClientOS(userAgent);
 		String registeripString = req.getRemoteAddr();
 		
-		return logInAction.signUp(typeString, usernameString, passwordString,
+		return logInAction.signUp(null,usernameString, passwordString,
 				registeripString, devicenameString, phoneosString);
 	}
 

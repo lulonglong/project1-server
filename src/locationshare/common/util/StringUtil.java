@@ -322,4 +322,25 @@ public class StringUtil {
 			return null;
 		return filename.substring(splitindex);
 	}
+
+	public static String getClientOS(String userAgent) {
+		if (isNullOrWhiteSpace(userAgent))
+			return null;
+		return userAgent.split("/")[0]+"-"+userAgent.split("/")[1];
+
+	}
+
+	public static String getClientAppVersion(String userAgent) {
+		if (isNullOrWhiteSpace(userAgent))
+			return null;
+		return userAgent.split("/")[4];
+
+	}
+
+	public static String getDeviceName(String userAgent) {
+		if (isNullOrWhiteSpace(userAgent))
+			return null;
+		return userAgent.split("/")[2] + ":"
+				+ userAgent.split("/")[3];
+	}
 }

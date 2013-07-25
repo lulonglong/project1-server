@@ -17,14 +17,8 @@
 
 	<!--SignUp -->
 	<servletValidator servletUrl="/SignUp">
-		<validator validatorClass="locationshare.validator.RegexValidator"
-			pattern="[012]">
-			<validateParam name="type" errorCode="0102101" />
-		</validator>
 		<validator validatorClass="locationshare.validator.NullValidator">
 			<validateParam name="username" errorCode="0102102" />
- 			<validateParam name="phoneos" errorCode="0102105" />
- 			<validateParam name="devicename" errorCode="0102106" />
 		</validator>
 		<validator validatorClass="locationshare.validator.RegexValidator"
 			pattern="[a-z0-9A-Z-_@.]+">
