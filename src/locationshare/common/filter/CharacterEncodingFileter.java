@@ -33,7 +33,6 @@ public class CharacterEncodingFileter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		request.setCharacterEncoding(charset);
-		response.setCharacterEncoding(charset);
 		chain.doFilter(request, response);
 	}
 
