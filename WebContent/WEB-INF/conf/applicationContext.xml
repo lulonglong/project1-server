@@ -35,10 +35,6 @@
 		<property name="logInAction" ref="logInAction" />
 	</bean>
 
-	<bean id="recordLogInInfoServlet" class="locationshare.servlet.RecordLogInInfoServlet"
-		scope="singleton">
-		<property name="logInAction" ref="logInAction" />
-	</bean>
 	<bean id="ExceptionRecordServlet" class="locationshare.servlet.ExceptionRecordServlet"
 		scope="singleton">
 		<property name="logInAction" ref="logInAction" />

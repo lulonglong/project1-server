@@ -1,6 +1,7 @@
 package locationshare.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +35,21 @@ public class UpdateHeadPortraitServlet extends BaseServlet {
 			if (!ServletFileUpload.isMultipartContent(req)) {
 				return vo.toErrorJsonResult(ErrorCode.HEADPORTRAIT_NULL);
 			}
-
-			FileItem headportrait = (FileItem) upload.parseRequest(req).get(0);
-			if (headportrait.isFormField()) {
+			
+			@SuppressWarnings("unchecked")
+			List<FileItem> fileItems=upload.parseRequest(req);
+			
+			FileItem headportrait=null;
+			for (FileItem fileItem : fileItems) {
+				if(fileItem.getFieldName().equals("headportrait")){
+					headportrait = fileItem;
+				}
+			}
+			
+			if(headportrait==null){
 				return vo.toErrorJsonResult(ErrorCode.HEADPORTRAIT_NULL);
 			}
-
+			
 			return profileAction.updatePortrait(userid, headportrait);
 
 		} catch (Exception e) {
