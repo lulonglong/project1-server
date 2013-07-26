@@ -1,7 +1,5 @@
 package locationshare.action;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +13,13 @@ import locationshare.hibernate.TbLogininfo;
 import locationshare.hibernate.TbUser;
 import locationshare.vo.LogInResultVo;
 
-import org.apache.catalina.connector.Request;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.JDBCConnectionException;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * Descriptions
@@ -34,7 +34,6 @@ import org.hibernate.exception.JDBCConnectionException;
  * 
  */
 public class LogInAction extends BaseAction {
-	// TODO improve db performance
 	/**
 	 * is the username existing
 	 * 
@@ -104,7 +103,7 @@ public class LogInAction extends BaseAction {
 				return vo.toErrorJsonResult(ErrorCode.SIGNUP_USERNAME_OCCUPY);
 
 			session.save(user);
-			return vo.toSuccessJsonResult(user.getUserid());
+			return vo.toSuccessJsonResult(user.getUserid().toString());
 
 		} catch (JDBCConnectionException e) {
 			logger.error("signUp Error:" + StringUtil.getExceptionStack(e));
@@ -123,7 +122,8 @@ public class LogInAction extends BaseAction {
 	 * @param password
 	 * @return
 	 */
-	public String logIn(String type, String username, String password,String ip,String userAgent) {
+	public String logIn(String type, String username, String password,
+			String ip, String userAgent) {
 		Session session = null;
 		LogInResultVo vo = new LogInResultVo();
 
@@ -133,6 +133,7 @@ public class LogInAction extends BaseAction {
 		}
 
 		try {
+			// query user
 			session = HibernateUtil.getSession();
 			Criteria criteria = session.createCriteria(TbUser.class);
 			if (StringUtil.isNullOrWhiteSpace(type) || type.equals("0")) {
@@ -146,29 +147,31 @@ public class LogInAction extends BaseAction {
 
 			@SuppressWarnings("unchecked")
 			List<TbUser> users = criteria.list();
-			String devicename=StringUtil.getDeviceName(userAgent);
-			String phoneos=StringUtil.getClientOS(userAgent);
-			
-			if (!users.isEmpty()) {
-				
-				recordLoginInfo(users.get(0).getUserid().toString(), devicename, phoneos, ip);
-				return vo.toSuccessJsonResult(users.get(0).getUserid());
-				
-			} else {
-				
-				if(type.equals("0")){
+			String devicename = StringUtil.getDeviceName(userAgent);
+			String phoneos = StringUtil.getClientOS(userAgent);
+			String userid = null;
+			if (users.isEmpty()) {
+
+				if (StringUtil.isNullOrWhiteSpace(type)||type.equals("0")) {
 					return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
 				}
-				
-				String result=signUp(type, username, null, ip,devicename ,phoneos );
-				if(result.contains("\"code\":\"1\"")){
+
+				// signup QQ sina
+				String result = signUp(type, username, null, ip, devicename,
+						phoneos);
+				if (result.contains("\"code\":\"1\"")) {
 					return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
 				}
-				//TODO read userid
-				String userid="";
-				recordLoginInfo(users.get(0).getUserid().toString(), devicename, phoneos, ip);
-				return result;
+
+				JSONObject jsonObject = JSON.parseObject(result);
+				userid = jsonObject.get("userid").toString();
+
 			}
+
+			userid = userid == null ? users.get(0).getUserid().toString()
+					: userid;
+			recordLoginInfo(userid, devicename, phoneos, ip);
+			return vo.toSuccessJsonResult(userid);
 
 		} catch (JDBCConnectionException e) {
 			logger.error("login Error:" + StringUtil.getExceptionStack(e));
@@ -188,27 +191,18 @@ public class LogInAction extends BaseAction {
 	 * @return
 	 */
 	public String recordException(String exception, String phoneos,
-			String appversion, String dateStr) {
+			String appversion) {
 		Session session = null;
-		LogInResultVo vo = new LogInResultVo();
+		BaseResultVO vo = new BaseResultVO();
+		
 		try {
 			session = HibernateUtil.getSession();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = null;
-			try {
-				date = sdf.parse(dateStr);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return vo.toErrorJsonResult(ErrorCode.EXCEPTION_RECORD_FAILED);
-			}
-			TbException tbException = new TbException(date, exception, phoneos,
-					appversion);
-
+			TbException tbException = new TbException(new Date(), exception,
+					phoneos, appversion);
 			session.save(tbException);
-			return vo.toSuccessJsonResult(0);
+			return vo.toSuccessJsonResult();
+			
 		} catch (JDBCConnectionException e) {
-			// TODO: handle exception
 			logger.error("login Error:" + StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {

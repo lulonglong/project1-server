@@ -120,19 +120,6 @@
 		<url-pattern>/LogIn</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>RecordLogInInfoServlet</servlet-name>
-		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
-		<init-param>
-			<param-name>targetBean</param-name>
-			<param-value>recordLogInInfoServlet</param-value>
-		</init-param>
-		<load-on-startup>0</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>RecordLogInInfoServlet</servlet-name>
-		<url-pattern>/RecordLogInInfo</url-pattern>
-	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>ExceptionRecordServlet</servlet-name>

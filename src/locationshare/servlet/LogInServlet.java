@@ -32,7 +32,7 @@ public class LogInServlet extends BaseServlet {
 			}
 		}
 
-		return logInAction.logIn(typeString, usernameString, passwordString,userAgent,req.getRemoteAddr());
+		return logInAction.logIn(typeString, usernameString, passwordString,req.getRemoteAddr(),userAgent);
 	}
 
 	private LogInAction logInAction;
