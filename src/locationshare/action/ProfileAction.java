@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import locationshare.base.action.BaseAction;
 import locationshare.base.vo.BaseResultVO;
@@ -186,16 +187,20 @@ public class ProfileAction extends BaseAction {
 			// save database
 			session = HibernateUtil.getSession();
 			Query query = session
-					.createQuery("update TbUserDetail set highVcard=:highVcard,lowVcard=:lowVcard where userid=:userid");
+					.createQuery("update TbUserDetail set highVcard=:highVcard,lowVcard=:lowVcard,vcardUpdateDate=:vcardUpdateDate where userid=:userid");
 			query.setString("userid", userid);
 			query.setString("lowVcard", lowVcard);
 			query.setString("highVcard", highVcard);
+			query.setTimestamp("vcardUpdateDate", new Date());
+			
 			int updatedCount = query.executeUpdate();
 			if (updatedCount == 0) {
+				
 				TbUserDetail userDetail = new TbUserDetail(
 						Integer.parseInt(userid));
 				userDetail.setLowVcard(lowVcard);
 				userDetail.setHighVcard(highVcard);
+				userDetail.setVcardUpdateDate(new Date());
 				session.save(userDetail);
 				session.flush();
 			}

@@ -152,7 +152,7 @@ public class LogInAction extends BaseAction {
 			String userid = null;
 			if (users.isEmpty()) {
 
-				if (StringUtil.isNullOrWhiteSpace(type)||type.equals("0")) {
+				if (StringUtil.isNullOrWhiteSpace(type) || type.equals("0")) {
 					return vo.toErrorJsonResult(ErrorCode.LOGIN_FAILED);
 				}
 
@@ -194,14 +194,14 @@ public class LogInAction extends BaseAction {
 			String appversion) {
 		Session session = null;
 		BaseResultVO vo = new BaseResultVO();
-		
+
 		try {
 			session = HibernateUtil.getSession();
-			TbException tbException = new TbException(new Date(), exception,
-					phoneos, appversion);
+			TbException tbException = new TbException(new Date(), phoneos,
+					exception, appversion);
 			session.save(tbException);
 			return vo.toSuccessJsonResult();
-			
+
 		} catch (JDBCConnectionException e) {
 			logger.error("login Error:" + StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
