@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import locationshare.base.action.BaseAction;
@@ -14,11 +16,15 @@ import locationshare.common.util.ErrorCode;
 import locationshare.common.util.StringUtil;
 import locationshare.hibernate.HibernateUtil;
 import locationshare.hibernate.TbUserDetail;
+import locationshare.vo.AlterablePropertyResultVo;
+import locationshare.vo.UserDetailResultVo;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.fileupload.FileItem;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.JDBCConnectionException;
 
 import com.sina.sae.storage.SaeStorage;
@@ -118,7 +124,7 @@ public class ProfileAction extends BaseAction {
 			return vo.toSuccessJsonResult();
 
 		} catch (JDBCConnectionException e) {
-			logger.error("updateUserDetail Error:"
+			logger.error("updateSignature Error:"
 					+ StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
@@ -128,7 +134,7 @@ public class ProfileAction extends BaseAction {
 	}
 
 	public String updatePortrait(String userid, FileItem headportrait) {
-		
+
 		String fileName = headportrait.getName();
 		String suffixString = StringUtil.getFileSuffix(fileName);
 		String portraitFilename = userid + suffixString;
@@ -192,10 +198,10 @@ public class ProfileAction extends BaseAction {
 			query.setString("lowVcard", lowVcard);
 			query.setString("highVcard", highVcard);
 			query.setTimestamp("vcardUpdateDate", new Date());
-			
+
 			int updatedCount = query.executeUpdate();
 			if (updatedCount == 0) {
-				
+
 				TbUserDetail userDetail = new TbUserDetail(
 						Integer.parseInt(userid));
 				userDetail.setLowVcard(lowVcard);
@@ -210,7 +216,7 @@ public class ProfileAction extends BaseAction {
 		} catch (IOException e) {
 			logger.error("save image failed:" + StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.UPDATE_HEADPORTRAIT_FAILED);
-			
+
 		} finally {
 			if (session != null)
 				session.close();
@@ -239,6 +245,120 @@ public class ProfileAction extends BaseAction {
 					logger.error("close portraitInputStream failed");
 				}
 			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param userid
+	 * @return
+	 */
+	public String getUserDetail(String userid) {
+		UserDetailResultVo vo = new UserDetailResultVo();
+		Session session = null;
+		try {
+			session = HibernateUtil.getSession();
+			Criteria criteria = session.createCriteria(TbUserDetail.class);
+			criteria.add(Restrictions.idEq(Integer.parseInt(userid)));
+			Object result = criteria.uniqueResult();
+
+			if (result == null)
+				return vo
+						.toErrorJsonResult(ErrorCode.GETUSERDETAIL_USERID_NULL);
+
+			return vo.toSuccessJsonResult((TbUserDetail) result);
+
+		} catch (JDBCConnectionException e) {
+			logger.error("getUserDetail Error:"
+					+ StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
+		} finally {
+			if (session != null)
+				session.close();
+		}
+	}
+
+	/**
+	 * 
+	 * @param userid
+	 * @return
+	 */
+	public String getSignature(String userid) {
+		AlterablePropertyResultVo vo = new AlterablePropertyResultVo();
+		Session session = null;
+		try {
+			session = HibernateUtil.getSession();
+			Criteria criteria = session.createCriteria(TbUserDetail.class);
+			criteria.add(Restrictions.idEq(Integer.parseInt(userid)));
+			Object result = criteria.uniqueResult();
+
+			if (result == null)
+				return vo.toErrorJsonResult(ErrorCode.GETSIGNATURE_USERID_NULL);
+
+			vo.addProperty("signature", ((TbUserDetail) result).getSignature());
+			return vo.toSuccessJsonResult();
+
+		} catch (JDBCConnectionException e) {
+			logger.error("getSignature Error:"
+					+ StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
+		} finally {
+			if (session != null)
+				session.close();
+		}
+	}
+
+	/**
+	 * 
+	 * @param userid
+	 * @param lastgettime
+	 * @return
+	 */
+	public String getPortrait(String userid, String lastgettime) {
+		String islatest = "";
+		AlterablePropertyResultVo vo = new AlterablePropertyResultVo();
+		Session session = null;
+		try {
+			session = HibernateUtil.getSession();
+			Criteria criteria = session.createCriteria(TbUserDetail.class);
+			criteria.add(Restrictions.idEq(Integer.parseInt(userid)));
+			Object result = criteria.uniqueResult();
+
+			if (result == null)
+				return vo.toErrorJsonResult(ErrorCode.GETPORTRAIT_USERID_NULL);
+
+			TbUserDetail userDetail = (TbUserDetail) result;
+			if (userDetail.getVcardUpdateDate() == null) {
+				islatest = "y";
+			} else {
+
+				if (StringUtil.isNotNull(lastgettime)
+						&& userDetail.getVcardUpdateDate().getTime() <= new SimpleDateFormat(
+								"yyyy-MM-dd hh:mm:ss").parse(lastgettime)
+								.getTime()) {
+					islatest = "y";
+				} else {
+					islatest = "n";
+				}
+			}
+
+			vo.addProperty("islatest", islatest);
+			if (islatest.equals("n")) {
+				vo.addProperty("headportrait", userDetail.getHighVcard());
+			}
+
+			return vo.toSuccessJsonResult();
+
+		} catch (JDBCConnectionException e) {
+			logger.error("getPortrait Error:" + StringUtil.getExceptionStack(e));
+			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
+		} catch (ParseException e) {
+			logger.error("getPortrait Error:" + StringUtil.getExceptionStack(e));
+			return vo
+					.toErrorJsonResult(ErrorCode.GETPORTRAIT_TIMEFORMAT_FAILED);
+		} finally {
+			if (session != null)
+				session.close();
 		}
 	}
 }

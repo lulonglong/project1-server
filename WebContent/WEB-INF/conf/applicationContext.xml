@@ -53,5 +53,16 @@
 		scope="singleton">
 		<property name="profileAction" ref="profileAction" />
 	</bean>
-
+	<bean id="getUserDetailServlet" class="locationshare.servlet.GetUserDetailServlet"
+		scope="singleton">
+		<property name="profileAction" ref="profileAction" />
+	</bean>
+	<bean id="getSignatureServlet" class="locationshare.servlet.GetSignatureServlet"
+		scope="singleton">
+		<property name="profileAction" ref="profileAction" />
+	</bean>
+	<bean id="getHeadPortraitServlet" class="locationshare.servlet.GetHeadPortraitServlet"
+		scope="singleton">
+		<property name="profileAction" ref="profileAction" />
+	</bean>
 </beans> 

@@ -81,4 +81,41 @@
 		</validator>
 	</servletValidator>
 	
+	<!-- GetUserDetail -->
+	<servletValidator servletUrl="/GetUserDetail">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="0204102" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0204101" />
+		</validator>
+	</servletValidator>
+	
+	<!-- GetSignature -->
+	<servletValidator servletUrl="/GetSignature">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="0205102" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0205101" />
+		</validator>
+	</servletValidator>
+	
+	<!-- GetHeadPortrait -->
+	<servletValidator servletUrl="/GetHeadPortrait">
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="[0-9]+">
+			<validateParam name="userid" errorCode="0206102" />
+		</validator>
+		<validator validatorClass="locationshare.validator.NullValidator">
+			<validateParam name="userid" errorCode="0206101" />
+		</validator>
+		<validator validatorClass="locationshare.validator.RegexValidator"
+			pattern="20[0-9]{2}-[01]?[0-9]-[0-3]?[0-9] [0-2]?[0-9]:[0-5]?[0-9]:[0-5]?[0-9]">
+			<validateParam name="lastgettime" errorCode="0206103" />
+		</validator>
+	</servletValidator>
+	
 </validators>

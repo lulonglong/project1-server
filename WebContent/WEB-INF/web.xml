@@ -177,6 +177,49 @@
 		<servlet-name>UpdateHeadPortraitServlet</servlet-name>
 		<url-pattern>/UpdateHeadPortrait</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetUserDetailServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>getUserDetailServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetUserDetailServlet</servlet-name>
+		<url-pattern>/GetUserDetail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetSignatureServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>getSignatureServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetSignatureServlet</servlet-name>
+		<url-pattern>/GetSignature</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetHeadPortraitServlet</servlet-name>
+		<servlet-class>locationshare.base.servlet.ServletProxy</servlet-class>
+		<init-param>
+			<param-name>targetBean</param-name>
+			<param-value>getHeadPortraitServlet</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetHeadPortraitServlet</servlet-name>
+		<url-pattern>/GetHeadPortrait</url-pattern>
+	</servlet-mapping>
+	
 	<!-- conf file -->
 	<env-entry>
 		<env-entry-name>locationshare_property_file_name</env-entry-name>

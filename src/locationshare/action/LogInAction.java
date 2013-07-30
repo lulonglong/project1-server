@@ -203,7 +203,7 @@ public class LogInAction extends BaseAction {
 			return vo.toSuccessJsonResult();
 
 		} catch (JDBCConnectionException e) {
-			logger.error("login Error:" + StringUtil.getExceptionStack(e));
+			logger.error("recordException Error:" + StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
 			if (session != null)
@@ -231,7 +231,7 @@ public class LogInAction extends BaseAction {
 			session.save(logininfo);
 			return vo.toSuccessJsonResult();
 		} catch (JDBCConnectionException e) {
-			logger.error("validateRegister Error:"
+			logger.error("recordLoginInfo Error:"
 					+ StringUtil.getExceptionStack(e));
 			return vo.toErrorJsonResult(ErrorCode.DB_CONNECTION_TIMEOUT);
 		} finally {
