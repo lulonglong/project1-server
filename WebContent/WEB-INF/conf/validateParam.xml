@@ -76,9 +76,7 @@
 			pattern="[0-9]+">
 			<validateParam name="userid" errorCode="0203102" />
 		</validator>
-		<validator validatorClass="locationshare.validator.NullValidator">
-			<validateParam name="userid" errorCode="0203101" />
-		</validator>
+
 	</servletValidator>
 	
 	<!-- GetUserDetail -->

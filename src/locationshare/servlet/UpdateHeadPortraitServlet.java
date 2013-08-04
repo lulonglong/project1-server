@@ -27,12 +27,13 @@ public class UpdateHeadPortraitServlet extends BaseServlet {
 			throws IOException {
 		String userid = req.getParameter("userid");
 		BaseResultVO vo = new BaseResultVO();
-
+		logger.error("UpdateHeadPortraitServlet:userid:"+userid) ;
 		try {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			upload.setHeaderEncoding("UTF-8");
 			if (!ServletFileUpload.isMultipartContent(req)) {
+				logger.error("not MultiPart");
 				return vo.toErrorJsonResult(ErrorCode.HEADPORTRAIT_NULL);
 			}
 			
@@ -42,11 +43,15 @@ public class UpdateHeadPortraitServlet extends BaseServlet {
 			FileItem headportrait=null;
 			for (FileItem fileItem : fileItems) {
 				if(fileItem.getFieldName().equals("headportrait")){
+					logger.error("file name:"+fileItem.getFieldName()) ;
 					headportrait = fileItem;
 				}
+				if (fileItem.getFieldName().equals("userid")) {
+					userid = fileItem.getString() ;
+				}
 			}
-			
 			if(headportrait==null){
+				logger.error("headportrait is null!");
 				return vo.toErrorJsonResult(ErrorCode.HEADPORTRAIT_NULL);
 			}
 			
